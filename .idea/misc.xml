@@ -3,7 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioWorkplace/PhotoShare/app/src/main/res/layout/activity_button_nagivation.xml" value="0.25885416666666666" />
+        <entry key="..\:/AndroidStudioWorkplace/PhotoShare/app/src/main/res/layout/activity_create_my_photo.xml" value="0.25885416666666666" />
+        <entry key="..\:/AndroidStudioWorkplace/PhotoShare/app/src/main/res/layout/activity_main.xml" value="0.25885416666666666" />
+        <entry key="..\:/AndroidStudioWorkplace/PhotoShare/app/src/main/res/layout/activity_register.xml" value="0.25885416666666666" />
         <entry key="..\:/AndroidStudioWorkplace/PhotoShare/app/src/main/res/layout/avtivity_home_item_click_layout.xml" value="0.25885416666666666" />
+        <entry key="..\:/AndroidStudioWorkplace/PhotoShare/app/src/main/res/layout/fragment_dashboard.xml" value="0.25885416666666666" />
+        <entry key="..\:/AndroidStudioWorkplace/PhotoShare/app/src/main/res/layout/fragment_home.xml" value="0.25885416666666666" />
+        <entry key="..\:/AndroidStudioWorkplace/PhotoShare/app/src/main/res/layout/fragment_notifications.xml" value="0.25885416666666666" />
+        <entry key="..\:/AndroidStudioWorkplace/PhotoShare/app/src/main/res/layout/fragment_person.xml" value="0.25885416666666666" />
+        <entry key="..\:/AndroidStudioWorkplace/PhotoShare/app/src/main/res/layout/recycleview_dynamic_item.xml" value="0.25885416666666666" />
+        <entry key="..\:/AndroidStudioWorkplace/PhotoShare/app/src/main/res/layout/recycleview_home_item.xml" value="0.25885416666666666" />
+        <entry key="..\:/AndroidStudioWorkplace/PhotoShare/app/src/main/res/layout/recycleview_home_item_comments.xml" value="0.25885416666666666" />
+        <entry key="..\:/AndroidStudioWorkplace/PhotoShare/app/src/main/res/layout/recycleview_message_item.xml" value="0.25885416666666666" />
+        <entry key="..\:/AndroidStudioWorkplace/PhotoShare/app/src/main/res/layout/recycleview_mine_item.xml" value="0.25885416666666666" />
         <entry key="..\:/AndroidStudioWorkplace/final/Code06/app/src/main/res/drawable/dynamic_selector.xml" value="0.2065" />
         <entry key="..\:/AndroidStudioWorkplace/final/Code06/app/src/main/res/drawable/edittext_shape.xml" value="0.2065" />
         <entry key="..\:/AndroidStudioWorkplace/final/Code06/app/src/main/res/drawable/edittext_shape1.xml" value="0.2065" />

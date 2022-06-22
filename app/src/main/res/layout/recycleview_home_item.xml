@@ -74,6 +74,7 @@
 
                     android:textSize="15sp"
                     />
+
                 <ImageView
                     android:id="@+id/love_selected"
                     android:layout_width="30dp"
@@ -82,7 +83,7 @@
                     android:layout_below="@+id/mytitle"
                     android:layout_toRightOf="@id/h_item_sharername"
 
-                    android:src="@drawable/love2" />
+                    android:src="@drawable/love1" />
 
                 <TextView
                     android:id="@+id/count"

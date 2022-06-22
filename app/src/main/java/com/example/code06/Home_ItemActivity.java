@@ -24,6 +24,7 @@ import com.example.code06.Home_Recycleview.Mydynamic;
 import com.example.code06.Home_Recycleview.WaterfallAdapter;
 import com.example.code06.Person_RecycleView.CollectionAdapter;
 import com.example.code06.Person_RecycleView.MyCollection;
+import com.example.code06.SQL.IsLike;
 import com.example.code06.SQL.Iscollect;
 import com.example.code06.SQL.Share;
 import com.example.code06.ui.person.PersonFragment;
@@ -65,8 +66,10 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
     public ImageView igBack;
     public Button bt_comment;
     public String iscollect1;
+    public String like_id;
     public String ObjectId;
     public String sharerId;
+    public String like_not;
     public String sharerName;
     public static String itemUri;
     public int itemId;
@@ -76,9 +79,9 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
     public Uri hhuri;
     public static boolean flag = true;
     public static boolean like_flag = true;
-    public int j=0;
+    public int j = 0;
     public String collectid;
-    public String likeid;
+    public String likeId;
     public String imgid;
     public static List<Mycomment.sdata.pcomment> commentList;
     public static List<Mycomment> ALLcommentList;
@@ -99,7 +102,7 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
 
         showcollect();//显示是否收藏
         getcomment();  //获取评论
-        getLike();//get like
+        getLike();
         this.getSupportActionBar().hide();//隐藏标题栏
 
 //        Showcomments();
@@ -108,6 +111,55 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void getLike() {
+        String url = "http://47.107.52.7:88/member/photo/share/detail?shareId=" + sharerId + "&userId=" + MainActivity.Zuseridcode;
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Log.d("getlike", like_id + "?" + MainActivity.Zusername);
+        final Request request = new Request.Builder()
+                .url(url)
+                .addHeader("appId", MainActivity.appId)
+                .addHeader("appSecret", MainActivity.appSecret)
+//                .post(requestBody)
+                .get()
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String B = response.body().string();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson = new Gson();
+                        IsLike isLike = gson.fromJson(B, IsLike.class);
+//                        Iscollect iscollect = gson.fromJson(B, Iscollect.class);
+                        like_not = isLike.getData().getHasLike();
+//                        iscollect1 = iscollect.getData().getHascollect();
+                        like_id = isLike.getData().getLike_id();
+//                        collectid = iscollect.getData().getCollect();
+                        if (like_not.equals("true")) {
+                            Log.d("123123123", "........");
+                            like_flag = true;
+                            iv_like.setImageResource(R.drawable.iv_like);
+//                            ig_collect.setImageResource(R.drawable.dynamic_is_selected);
+
+                        } else {
+                            Log.d("123123123", "0000000");
+//                            ig_collect.setImageResource(R.drawable.shouchang);
+                            iv_like.setImageResource(R.drawable.love1);
+
+                            like_flag = false;
+                        }
+
+                    }
+                });
+
+            }
+        });
     }
 
     public void onClick(View view) {
@@ -119,8 +171,7 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
                 /**************************获取评论信息，储存在Mycomment类中***************************/
 //                String mcomment = et_mcomment.getText().toString();
 //                if (!TextUtils.isEmpty(mcomment)) {
-                if(true){
-//                    Mycomment c = new Mycomment
+                //                    Mycomment c = new Mycomment
 //                            (itemId,
 //                                    Integer.valueOf(MainActivity.UserId),
 //                                    MainActivity.mname,
@@ -133,19 +184,18 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
 //                        }
 //                    });
 //                    getcomment();
-                    putcomment();
-                    /************************************************************************************/
+                putcomment();
+                /************************************************************************************/
 
-                    et_mcomment.setText("");//评论完成后重置输入框
-                    /*********************************显示评论***********************************/
+                et_mcomment.setText("");//评论完成后重置输入框
+                /*********************************显示评论***********************************/
 //                    commentList.add(c);
 //                    commentAdapter = new CommentAdapter(Home_ItemActivity.this, commentList);
 //                    CRecyclerview.setAdapter(commentAdapter);
 //                    j++;
 //                    tv_item_count.setText("共有" + j + "条评论");
-                    /*********************************************************************/
-                    getcomment();           //重新获取评论
-                } else Toast.makeText(Home_ItemActivity.this, "评论不能为空!", Toast.LENGTH_SHORT).show();
+                /*********************************************************************/
+                getcomment();           //重新获取评论
                 break;
             case R.id.ig_home_item_collect:
 
@@ -198,19 +248,106 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
 //                        }
 //                    });
 
-                    break;
-                    case R.id.iv_like:
-                        if (like_flag) {//取消收藏
-                            iv_like.setImageResource(R.drawable.love2);
-                            like_delete();
                 }
+                break;
+            case R.id.iv_like:
+                if (like_flag) {
+                    iv_like.setImageResource(R.drawable.love1);
+                    like_delete();
+                } else {
+                    iv_like.setImageResource(R.drawable.iv_like);
+                    like_chose();
+                }
+                break;
         }
     }
 
-    private void getcomment(){
-        String url1 = "http://47.107.52.7:88/member/photo/comment/first?current=0&shareId="+sharerId+"&size=10";      //chuangzhi
+    private void like_chose() {
+        Log.d("LIKE", "LIKE");
+        String url1 = "http://47.107.52.7:88/member/photo/like";
         //         url = url+"?current="+"0"+"&size="+"10"+"&userId="+"1532321653437108224";
-        Log.d("shareid",sharerId);
+        RequestBody requestBody = new FormBody.Builder()
+
+                .add("shareId", sharerId)
+                .add("userId", MainActivity.Zuseridcode)
+                .build();
+        Log.d("shareID", sharerId + "...");
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final Request request = new Request.Builder()
+                .url(url1)
+                .addHeader("appId", MainActivity.appId)
+                .addHeader("appSecret", MainActivity.appSecret)
+                .post(requestBody)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        List<Share.data.record> records111 = null;
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("11111111", "onfailure");
+//                List<Share.data.record> records111 = null;
+//                return records111;
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+
+
+                if (true) {
+                    String b = response.body().string();
+                    Log.d("pppppppb", b);
+
+
+                }
+            }
+
+        });
+    }
+
+    private void like_delete() {
+        Log.d("NOLIKE", "NOLIKE");
+        String url1 = "http://47.107.52.7:88/member/photo/like/cancel";
+        //         url = url+"?current="+"0"+"&size="+"10"+"&userId="+"1532321653437108224";
+        Log.d("like_id", like_id + "?");
+        RequestBody requestBody = new FormBody.Builder()
+
+                .add("likeId", like_id)  //要进行传值
+
+                .build();
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final Request request = new Request.Builder()
+                .url(url1)
+                .addHeader("appId", MainActivity.appId)
+                .addHeader("appSecret", MainActivity.appSecret)
+                .post(requestBody)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        List<Share.data.record> records111 = null;
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("11111111", "onfailure");
+//                List<Share.data.record> records111 = null;
+//                return records111;
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+
+
+                String b = response.body().string();
+                Log.d("ppppppp", b);
+
+
+            }
+
+        });
+    }
+
+    private void getcomment() {
+        String url1 = "http://47.107.52.7:88/member/photo/comment/first?current=0&shareId=" + sharerId + "&size=10";      //chuangzhi
+        //         url = url+"?current="+"0"+"&size="+"10"+"&userId="+"1532321653437108224";
+        Log.d("shareid", sharerId);
         OkHttpClient okHttpClient = new OkHttpClient();
         final Request request = new Request.Builder()
                 .url(url1)
@@ -234,12 +371,12 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
 
                 if (true) {
                     String b = response.body().string();
-                    Log.d("12312313",b);
+                    Log.d("12312313", b);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Gson gson = new Gson();
-                            Mycomment json = gson.fromJson(b,Mycomment.class);
+                            Mycomment json = gson.fromJson(b, Mycomment.class);
 //                            Log.d("2131321",json.toString());
                             List<Mycomment.sdata.pcomment> pcomments = json.getData().getRecords();
 //                            Log.d("2131321",pcomments.get(0).getContent());
@@ -247,38 +384,39 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
                             commentAdapter = new CommentAdapter(Home_ItemActivity.this, commentList);
                             CRecyclerview.setAdapter(commentAdapter);
                             j = Integer.valueOf(json.getData().getTotal());
-                            tv_item_count.setText("共有"+j+"条评论");
+                            tv_item_count.setText("共有" + j + "条评论");
 //                            imgid = commentList.get(0).getShareId();
                             //图片表示数字
                         }
                     });
 
-                        }
-                    }
+                }
+            }
 
         });
     }
-    private void putcomment(){
+
+    private void putcomment() {
         //进行图片评论的上传
         String url = "http://47.107.52.7:88/member/photo/comment/first";
         RequestBody requestBody = new FormBody.Builder()
 
-                .add("content",et_mcomment.getText().toString())
-                .add("shareId",sharerId)
-                .add("userId",ButtonNagivation.useridcode)
-                .add("userName",sharename)
+                .add("content", et_mcomment.getText().toString())
+                .add("shareId", sharerId)
+                .add("userId", ButtonNagivation.useridcode)
+                .add("userName", sharename)
                 .build();
         MediaType JSON = MediaType.parse("application/json;charset=utf-8");
-        JSONObject json=new JSONObject();
+        JSONObject json = new JSONObject();
         try {
-            json.put("content",et_mcomment.getText().toString());
-            json.put("shareId",sharerId);
-            json.put("userId",ButtonNagivation.useridcode);
-            json.put("userName",sharename);
+            json.put("content", et_mcomment.getText().toString());
+            json.put("shareId", sharerId);
+            json.put("userId", ButtonNagivation.useridcode);
+            json.put("userName", sharename);
 
-            Log.d("33333334433",et_mcomment.getText().toString());
-        }catch (Exception E){
-            Log.d("7777777",E.toString());
+            Log.d("33333334433", et_mcomment.getText().toString());
+        } catch (Exception E) {
+            Log.d("7777777", E.toString());
         }
         RequestBody requestBody1 = RequestBody.create(JSON, String.valueOf(json));
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -299,16 +437,17 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 String B = response.body().string();
-                Log.d("21231321",B);
+                Log.d("21231321", B);
             }
         });
     }
-    private void showcollect(){
+
+    private void showcollect() {
         //获取是否收藏
 
-        String url = "http://47.107.52.7:88/member/photo/share/detail?shareId="+sharerId+"&userId="+MainActivity.Zuseridcode;
+        String url = "http://47.107.52.7:88/member/photo/share/detail?shareId=" + sharerId + "&userId=" + MainActivity.Zuseridcode;
         OkHttpClient okHttpClient = new OkHttpClient();
-        Log.d("BIAOQIAN",sharerId+"?"+MainActivity.Zusername);
+        Log.d("BIAOQIAN", sharerId + "?" + MainActivity.Zusername);
         final Request request = new Request.Builder()
                 .url(url)
                 .addHeader("appId", MainActivity.appId)
@@ -330,17 +469,16 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void run() {
                         Gson gson = new Gson();
-                        Iscollect iscollect =gson.fromJson(B,Iscollect.class);
-                        iscollect1= iscollect.getData().getHascollect();
+                        Iscollect iscollect = gson.fromJson(B, Iscollect.class);
+                        iscollect1 = iscollect.getData().getHascollect();
                         collectid = iscollect.getData().getCollect();
-                        if (iscollect1 == "true"){
-                            Log.d("123123123","........");
+                        if (iscollect1 == "true") {
+                            Log.d("123123123", "........");
                             flag = true;
                             ig_collect.setImageResource(R.drawable.dynamic_is_selected);
 
-                        }
-                        else {
-                            Log.d("123123123","0000000");
+                        } else {
+                            Log.d("123123123", "0000000");
                             ig_collect.setImageResource(R.drawable.shouchang);
                             flag = false;
                         }
@@ -353,16 +491,17 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
 
 
     }
-    private void collect_chose(){
-        Log.d("SHOUCHANG","SHOUCHANG");
+
+    private void collect_chose() {
+        Log.d("SHOUCHANG", "SHOUCHANG");
         String url1 = "http://47.107.52.7:88/member/photo/collect";
         //         url = url+"?current="+"0"+"&size="+"10"+"&userId="+"1532321653437108224";
         RequestBody requestBody = new FormBody.Builder()
 
                 .add("shareId", sharerId)
-                .add("userId",MainActivity.Zuseridcode)
+                .add("userId", MainActivity.Zuseridcode)
                 .build();
-        Log.d("shareID",sharerId+"...");
+        Log.d("shareID", sharerId + "...");
         OkHttpClient okHttpClient = new OkHttpClient();
         final Request request = new Request.Builder()
                 .url(url1)
@@ -386,7 +525,7 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
 
                 if (true) {
                     String b = response.body().string();
-                    Log.d("pppppppb",b);
+                    Log.d("pppppppb", b);
 
 
                 }
@@ -394,14 +533,15 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
 
         });
     }
-    private void collect_delete(){
-        Log.d("NOSHOUCHANG","NOSHOUCHANG");
+
+    private void collect_delete() {
+        Log.d("NOSHOUCHANG", "NOSHOUCHANG");
         String url1 = "http://47.107.52.7:88/member/photo/collect/cancel";
         //         url = url+"?current="+"0"+"&size="+"10"+"&userId="+"1532321653437108224";
-        Log.d("collectid",collectid+"?");
+        Log.d("collectid", collectid + "?");
         RequestBody requestBody = new FormBody.Builder()
 
-                .add("collectId",collectid)  //要进行传值
+                .add("collectId", collectid)  //要进行传值
 
                 .build();
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -427,7 +567,7 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
 
                 if (true) {
                     String b = response.body().string();
-                    Log.d("ppppppp",b);
+                    Log.d("ppppppp", b);
 
 
                 }
@@ -435,11 +575,12 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
 
         });
     }
-    private  void initview(){
+
+    private void initview() {
         /***********************初始化控件**************************/
         igBack = findViewById(R.id.img_back_home);
         igdetail = findViewById(R.id.ig_myshareimage);
-iv_like=findViewById(R.id.iv_like);
+        iv_like = findViewById(R.id.iv_like);
         tv_item_title = findViewById(R.id.tv_home_item_title);
         tv_item_detail = findViewById(R.id.tv_home_item_detail);
         tv_item_count = findViewById(R.id.home_item_commentscount);
@@ -455,22 +596,22 @@ iv_like=findViewById(R.id.iv_like);
         ALLcommentList = new ArrayList<>();
 
         CRecyclerview.setHasFixedSize(true);
-        ClayoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
+        ClayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         CRecyclerview.setLayoutManager(ClayoutManager);
         /*********************************************************/
 
     }
 
-    private void getitemmessage(){
+    private void getitemmessage() {
         /***********************获取item的信息**************************/
         sharerId = this.getIntent().getStringExtra("sharerIdkey");
         sharerName = this.getIntent().getStringExtra("shareNamekey");
         hhuri = Uri.parse(this.getIntent().getStringExtra("hUrikey"));
-        itemId = this.getIntent().getIntExtra("itemidkey",0);
-        itemUri=this.getIntent().getStringExtra("imgUrikey");
+        itemId = this.getIntent().getIntExtra("itemidkey", 0);
+        itemUri = this.getIntent().getStringExtra("imgUrikey");
         itemtitle = this.getIntent().getStringExtra("titlekey");
         itemdetail = this.getIntent().getStringExtra("detailkey");
-        itemHeight = this.getIntent().getIntExtra("imgHeight",0);
+        itemHeight = this.getIntent().getIntExtra("imgHeight", 0);
 
 
 //        igdetail.setImageURI(itemUri);
@@ -488,40 +629,41 @@ iv_like=findViewById(R.id.iv_like);
             conn.setDoInput(true);
             conn.connect();
             Bitmap pngBM = BitmapFactory.decodeStream(picUrl.openStream());
-            Log.d("123123123123",picUrl.toString());
+            Log.d("123123123123", picUrl.toString());
             igdetail.setImageBitmap(pngBM);
             //            放置图片
 //            holder2.sharerh.setImageBitmap(pngBM);
             //            分享者头像
-        }catch (Exception R){
-            Log.d("123123123123",R.toString());
+        } catch (Exception R) {
+            Log.d("123123123123", R.toString());
         }
 
         tv_item_title.setText(itemtitle);
         tv_item_detail.setText(itemdetail);
         /***********************初始化控件**************************/
     }
-    public void JudgeCollectionStatus(){
+
+    public void JudgeCollectionStatus() {
         BmobQuery<MyCollection> collectionBmobQuery = new BmobQuery<>();
         collectionBmobQuery.findObjects(new FindListener<MyCollection>() {
             @Override
             public void done(List<MyCollection> list, BmobException e) {
-                if (list!=null){
-                    for(int i=0;i<list.size();i++){
-                        if(MainActivity.UserId.equals(String.valueOf(list.get(i).getUserId()))&&
-                                itemId==list.get(i).getItemId()
-                        ){
+                if (list != null) {
+                    for (int i = 0; i < list.size(); i++) {
+                        if (MainActivity.UserId.equals(String.valueOf(list.get(i).getUserId())) &&
+                                itemId == list.get(i).getItemId()
+                        ) {
                             ig_collect.setImageResource(R.drawable.dynamic_is_selected);
                             break;
-                        }
-                        else ig_collect.setImageResource(R.drawable.shouchang);
+                        } else ig_collect.setImageResource(R.drawable.shouchang);
                     }
                 }
 
             }
         });
     }
-    public void Showcomments(){
+
+    public void Showcomments() {
 
         /***********************从云数据库中根据item号取出评论信息******************************/
 //        BmobQuery<Mycomment> commentBmobQuery = new BmobQuery<>();
@@ -536,8 +678,8 @@ iv_like=findViewById(R.id.iv_like);
 //                        }
 //                    }
 //                    commentAdapter = new CommentAdapter(Home_ItemActivity.this,commentList);
-                    CRecyclerview.setAdapter(commentAdapter);
-                    tv_item_count.setText("共有"+j+"条评论");
+        CRecyclerview.setAdapter(commentAdapter);
+        tv_item_count.setText("共有" + j + "条评论");
 //                }
 
 //            }
@@ -548,6 +690,3 @@ iv_like=findViewById(R.id.iv_like);
     }
 
 }
-
-    private void like_delete() {
-    }
