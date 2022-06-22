@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.scwang.smart.refresh.layout.SmartRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.scwang.smart.refresh.header.BezierRadarHeader
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.scwang.smart.refresh.header.BezierRadarHeader>
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment"
     android:orientation="vertical"
-    android:background="#F7F9FD"
+    android:background="@drawable/test01"
     android:descendantFocusability="blocksDescendants"
     >
 
@@ -16,9 +24,15 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/Rv_home"
                 android:layout_width="match_parent"
@@ -26,12 +40,19 @@
                 android:background="#F7F9FD"
                 android:scrollbars="none"
                 >
+
+
             </androidx.recyclerview.widget.RecyclerView>
 
         </RelativeLayout>
+
     </androidx.core.widget.NestedScrollView>
 
 
 
 
 </LinearLayout>
+    <com.scwang.smart.refresh.footer.BallPulseFooter
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</com.scwang.smart.refresh.layout.SmartRefreshLayout>

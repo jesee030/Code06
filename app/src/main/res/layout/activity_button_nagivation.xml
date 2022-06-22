@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -17,38 +18,45 @@
         android:background="@color/white"
         app:menu="@menu/bottom_nav_menu" />
 
-    <!--        <fragment-->
-    <!--            android:id="@+id/nav_host_fragment_activity_button_nagivation"-->
-    <!--            android:name="androidx.navigation.fragment.NavHostFragment"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent"-->
-    <!--            android:layout_above="@id/nav_view"-->
-    <!--            app:defaultNavHost="true"-->
-    <!--            app:navGraph="@navigation/mobile_navigation" />-->
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/nav_host_fragment_activity_button_nagivation"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/nav_view"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/mobile_navigation">
+            <fragment
+                android:id="@+id/nav_host_fragment_activity_button_nagivation"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/nav_view"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/mobile_navigation" />
+<!--    <com.scwang.smart.refresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        android:id="@+id/nav_host_fragment_activity_button_refresj_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_above="@id/nav_view"-->
+<!--        app:defaultNavHost="true"-->
+<!--        app:navGraph="@navigation/mobile_navigation">-->
 
-        <com.scwang.smart.refresh.header.ClassicsHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+<!--        <com.scwang.smart.refresh.header.BezierRadarHeader-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#fff"
-            android:overScrollMode="never" />
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/recyclerView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="#fff"-->
+<!--            android:overScrollMode="never" />-->
+<!--<fragment-->
+<!--        android:id="@+id/nav_host_fragment_activity_button_nagivation"-->
+<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_above="@id/nav_view"-->
+<!--        app:defaultNavHost="true"-->
+<!--        app:navGraph="@navigation/mobile_navigation" />-->
+<!--        <com.scwang.smart.refresh.footer.BallPulseFooter-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
 
-        <com.scwang.smart.refresh.footer.ClassicsFooter
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+<!--    </com.scwang.smart.refresh.layout.SmartRefreshLayout>-->
 
     <LinearLayout
         android:layout_width="80dp"

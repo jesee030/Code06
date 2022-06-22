@@ -1,51 +1,47 @@
 package com.example.code06;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.code06.Home_Recycleview.CommentAdapter;
 import com.example.code06.Home_Recycleview.Mycomment;
 import com.example.code06.Home_Recycleview.Mydynamic;
-import com.example.code06.Home_Recycleview.WaterfallAdapter;
-import com.example.code06.Person_RecycleView.CollectionAdapter;
 import com.example.code06.Person_RecycleView.MyCollection;
 import com.example.code06.SQL.IsLike;
 import com.example.code06.SQL.Iscollect;
 import com.example.code06.SQL.Share;
-import com.example.code06.ui.person.PersonFragment;
 import com.google.gson.Gson;
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.header.ClassicsHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import org.json.JSONObject;
-import org.w3c.dom.Comment;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.listener.UpdateListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -370,28 +366,26 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
             public void onResponse(Call call, final Response response) throws IOException {
 
 
-                if (true) {
-                    String b = response.body().string();
-                    Log.d("12312313", b);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Gson gson = new Gson();
-                            Mycomment json = gson.fromJson(b, Mycomment.class);
+                String b = response.body().string();
+                Log.d("12312313", b);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson = new Gson();
+                        Mycomment json = gson.fromJson(b, Mycomment.class);
 //                            Log.d("2131321",json.toString());
-                            List<Mycomment.sdata.pcomment> pcomments = json.getData().getRecords();
+                        List<Mycomment.sdata.pcomment> pcomments = json.getData().getRecords();
 //                            Log.d("2131321",pcomments.get(0).getContent());
-                            commentList = pcomments;
-                            commentAdapter = new CommentAdapter(Home_ItemActivity.this, commentList);
-                            CRecyclerview.setAdapter(commentAdapter);
-                            j = Integer.valueOf(json.getData().getTotal());
-                            tv_item_count.setText("共有" + j + "条评论");
+                        commentList = pcomments;
+                        commentAdapter = new CommentAdapter(Home_ItemActivity.this, commentList);
+                        CRecyclerview.setAdapter(commentAdapter);
+                        j = Integer.valueOf(json.getData().getTotal());
+                        tv_item_count.setText("共有" + j + "条评论");
 //                            imgid = commentList.get(0).getShareId();
-                            //图片表示数字
-                        }
-                    });
+                        //图片表示数字
+                    }
+                });
 
-                }
             }
 
         });
@@ -589,6 +583,8 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
         bt_comment = findViewById(R.id.Comment);
         CRecyclerview = findViewById(R.id.rv_home_item_commentlist);
         et_mcomment = findViewById(R.id.home_item_Entercomments);
+
+
         //输入评论内容
         /***********************初始化控件**************************/
         /***********************初始化评论列**************************/

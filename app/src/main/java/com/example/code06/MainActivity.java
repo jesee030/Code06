@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         this.getSupportActionBar().hide();//隐藏标题栏
         SQLiteStudioService.instance().start(this);
-        Bmob.initialize(this, "4b0df4932523d4c7c32a55ccc0c79c62");
+//        Bmob.initialize(this, "4b0df4932523d4c7c32a55ccc0c79c62");
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

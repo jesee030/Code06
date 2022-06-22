@@ -24,6 +24,11 @@ import com.example.code06.Home_Recycleview.WaterfallAdapter;
 import com.example.code06.SQL.Share;
 import com.example.code06.ui.person.PersonFragment;
 import com.google.gson.Gson;
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.header.ClassicsHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import android.content.Intent;
 
@@ -154,37 +159,35 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call call, final Response response) throws IOException {
 
 
-                if (true) {
+                int a = response.code();
 
-                    int a = response.code();
-
-                    b = response.body().string();
+                b = response.body().string();
 //                    Log.d("11111111",b);
-                    getActivity().runOnUiThread(new Runnable() {        //重新写一个进程
-                        @Override
-                        public void run() {
-                            Log.d("7777777","12123132132");
-                            Gson gson = new Gson();
-                            Share userJson = gson.fromJson(b, Share.class);//开始解析
-                            if (Integer.valueOf(userJson.getData().getTotal())==0){
+                getActivity().runOnUiThread(new Runnable() {        //重新写一个进程
+                    @Override
+                    public void run() {
+                        Log.d("7777777","12123132132");
+                        Gson gson = new Gson();
+                        Share userJson = gson.fromJson(b, Share.class);//开始解析
+                        if (Integer.valueOf(userJson.getData().getTotal())==0){
 
-                            }else {
-                                Log.d("KONG",userJson.getData().getTotal());//
-                                list = userJson.getData().getRecord();
+                        }else {
+                            Log.d("KONG",userJson.getData().getTotal());//
+                            list = userJson.getData().getRecord();
 
-                                mAdapter = new WaterfallAdapter(getActivity(), list);//调用构造器
-                                mAdapter.test();
+                            mAdapter = new WaterfallAdapter(getActivity(), list);//调用构造器
+                            mAdapter.test();
 //                            if (mAdapter == null){
 //                                Log.d("22222222","33333333");
 //                            }else {
 //
 //                            }
-                                mRecyclerView.setAdapter(mAdapter);//加载waterfalladapter
+                            mRecyclerView.setAdapter(mAdapter);//加载waterfalladapter
 //                            QQQ = userJson.getCode();
 //                            Log.d("7777777",QQQ);
-                            }
                         }
-                    });
+                    }
+                });
 
 //                    CreateMyPhotoActivity.k+=records.size();
 ////                    /****************************显示图片列表***********************************/
@@ -192,11 +195,6 @@ public class HomeFragment extends Fragment {
 
 //                    return records111;
 
-                } else {
-//                     Toast.makeText(MainActivity.this,"fall",Toast.LENGTH_SHORT).show();
-//                    List<Share.data.record> records111 = null;
-//                    return records111;
-                }
             }
         });
 
@@ -212,11 +210,30 @@ public class HomeFragment extends Fragment {
         /*************************************************************/
 //        list = new ArrayList<>();
         /**************************设置回收视图、瀑布流布局***************************/
+
+        RefreshLayout refreshLayout = (RefreshLayout)view.findViewById(R.id.refreshLayout);
+        refreshLayout.setRefreshHeader(new ClassicsHeader(view.getContext()));
+        refreshLayout.setRefreshFooter(new ClassicsFooter(view.getContext()));
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+
+            }
+        });
         mRecyclerView = view.findViewById(R.id.Rv_home);
         mRecyclerView.setHasFixedSize(true);
         mlayoutmanager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 //        页面布局为2列，纵向分布
         mRecyclerView.setLayoutManager(mlayoutmanager);
+
         /********************************************************************/
 
     }
