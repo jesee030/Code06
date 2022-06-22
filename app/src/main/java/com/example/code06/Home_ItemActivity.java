@@ -56,6 +56,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class Home_ItemActivity extends AppCompatActivity implements View.OnClickListener {
+
     public static ImageView igdetail;
     public TextView tv_item_title;
     public TextView tv_item_detail;
