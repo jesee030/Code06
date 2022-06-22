@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Home_ItemActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Home_ItemActivity">
 
     <RelativeLayout
         android:id="@+id/r1"
         android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_height="60dp"
+        android:layout_alignParentTop="true"
         android:background="@color/wheat">
 
         <ImageView
@@ -22,29 +22,29 @@
             android:onClick="onClick"
             android:src="@drawable/home_back" />
     </RelativeLayout>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/r2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/r1">
+
         <RelativeLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:orientation="vertical"
             android:background="@color/wheat"
-            >
+            android:orientation="vertical">
 
 
             <ImageView
                 android:id="@+id/ig_myshareimage"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:scaleType="centerCrop"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                />
+                android:scaleType="centerCrop" />
 
 
             <TextView
@@ -52,8 +52,8 @@
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ig_myshareimage"
-                android:layout_marginLeft="15dp"
                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"
@@ -61,12 +61,12 @@
                 />
 
             <TextView
-                android:layout_marginLeft="15dp"
                 android:id="@+id/tv_home_item_detail"
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_home_item_title"
                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"
 
 
                 android:textColor="@color/black"
@@ -74,15 +74,14 @@
 
 
             <TextView
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
                 android:id="@+id/home_item_commentscount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_home_item_detail"
-                android:textSize="20sp"
-                />
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:textSize="20sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_home_item_commentlist"
@@ -98,10 +97,10 @@
                 android:layout_below="@id/rv_home_item_commentlist"
                 android:gravity="center"
                 android:text="-The End-" />
+
             <TextView
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                />
+                android:layout_height="wrap_content" />
 
         </RelativeLayout>
 
@@ -113,8 +112,7 @@
         android:layout_height="75dp"
 
         android:layout_alignParentBottom="true"
-        android:background="@color/wheat"
-        >
+        android:background="@color/wheat">
 
         <EditText
             android:id="@+id/home_item_Entercomments"
@@ -127,25 +125,33 @@
             android:hint="请输入内容" />
 
         <ImageView
+            android:id="@+id/iv_like"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="300dp"
+            android:layout_marginTop="20dp"
+            android:onClick="onClick"
+            app:srcCompat="@drawable/love1" />
+
+        <ImageView
 
             android:id="@+id/ig_home_item_collect"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="340dp"
+            android:layout_marginLeft="360dp"
             android:layout_marginTop="20dp"
             android:onClick="onClick"
             android:src="@drawable/shouchang" />
+
         <Button
-            android:layout_marginTop="10dp"
             android:id="@+id/Comment"
             android:layout_width="110dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="220dp"
-            android:text="发表评论"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="10dp"
             android:onClick="onClick"
-            />
+            android:text="发表评论" />
     </RelativeLayout>
-
 
 
 </RelativeLayout>

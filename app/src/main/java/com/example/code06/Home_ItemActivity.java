@@ -61,6 +61,7 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
     public TextView tv_item_count;
     public EditText et_mcomment;
     public ImageView ig_collect;
+    public ImageView iv_like;
     public ImageView igBack;
     public Button bt_comment;
     public String iscollect1;
@@ -74,8 +75,10 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
     public int itemHeight;
     public Uri hhuri;
     public static boolean flag = true;
+    public static boolean like_flag = true;
     public int j=0;
     public String collectid;
+    public String likeid;
     public String imgid;
     public static List<Mycomment.sdata.pcomment> commentList;
     public static List<Mycomment> ALLcommentList;
@@ -96,12 +99,15 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
 
         showcollect();//显示是否收藏
         getcomment();  //获取评论
-
+        getLike();//get like
         this.getSupportActionBar().hide();//隐藏标题栏
 
 //        Showcomments();
 //        JudgeCollectionStatus();
 //        showcollect();      //显示是否收藏了
+    }
+
+    private void getLike() {
     }
 
     public void onClick(View view) {
@@ -193,6 +199,10 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
 //                    });
 
                     break;
+                    case R.id.iv_like:
+                        if (like_flag) {//取消收藏
+                            iv_like.setImageResource(R.drawable.love2);
+                            like_delete();
                 }
         }
     }
@@ -429,7 +439,7 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
         /***********************初始化控件**************************/
         igBack = findViewById(R.id.img_back_home);
         igdetail = findViewById(R.id.ig_myshareimage);
-
+iv_like=findViewById(R.id.iv_like);
         tv_item_title = findViewById(R.id.tv_home_item_title);
         tv_item_detail = findViewById(R.id.tv_home_item_detail);
         tv_item_count = findViewById(R.id.home_item_commentscount);
@@ -538,3 +548,6 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
     }
 
 }
+
+    private void like_delete() {
+    }
