@@ -31,6 +31,7 @@ import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import android.content.Intent;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,10 +55,12 @@ public class HomeFragment extends Fragment {
     public static RecyclerView.LayoutManager mlayoutmanager;
     public static WaterfallAdapter mAdapter;
     public static View view = null;
-    private ImageView imageView,imgdetail;
+    private ImageView imageView, imgdetail;
     public static Uri imguri;
     private Intent intent;
-    public  List<Share.data.record> list;
+    public static List<Share.data.record> list;
+    private int current = 1;
+    private final int perPage = 6;
     public static List<Mydynamic> list1;
     public static RecyclerView mRecyclerView;
     public static int randomnum;
@@ -67,6 +70,7 @@ public class HomeFragment extends Fragment {
     public static List<Share.data.record> list111;
 
     private HomeViewModel homeViewModel;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -113,29 +117,32 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
-    void change(List<Share.data.record> list222){
+
+    void change(List<Share.data.record> list222) {
         Log.d("222222222", list222.get(0).getId());
         mAdapter = new WaterfallAdapter
                 (getActivity(), list222);
-        mAdapter.test();
+//        mAdapter.test();
         mRecyclerView.setVisibility(View.VISIBLE);
         try {
             mRecyclerView.setAdapter(mAdapter);
-        }catch (Exception E){
-            Log.d("888888888",E.toString());
+        } catch (Exception E) {
+            Log.d("888888888", E.toString());
         }
 
 //        return list111;
     }
-    void pictuer(){
-        Log.d("useridcode","21231");
+
+    void loadMore() {
+        Log.d("loadMore", "current=="+current);
 //        RequestBody requestBody = new FormBody.Builder()
 //
 //                .add("current", "0")
 //                .add("size", "10")
 //                .build();
 
-        String url1 = "http://47.107.52.7:88/member/photo/share?current=0&size=10&userId="+MainActivity.Zuseridcode;
+//        String url1 = "http://47.107.52.7:88/member/photo/share?current=" + current + "&size="+(current+10)+"&userId=" + MainActivity.Zuseridcode;
+        String url1 = "http://47.107.52.7:88/member/photo/share?current=" + current + "&size="+perPage+"&userId=" + MainActivity.Zuseridcode;
         //         url = url+"?current="+"0"+"&size="+"10"+"&userId="+"1532321653437108224";
         OkHttpClient okHttpClient = new OkHttpClient();
         final Request request = new Request.Builder()
@@ -150,13 +157,93 @@ public class HomeFragment extends Fragment {
         call.enqueue(new Callback() {           //异步请求
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("11111111", "onfailure");
+                Log.d("loadMore", "onfailure");
 //                List<Share.data.record> records111 = null;
 //                return records111;
             }
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
+                b = response.body().string();
+//                    Log.d("11111111",b);
+                getActivity().runOnUiThread(new Runnable() {        //重新写一个进程
+                    @Override
+                    public void run() {
+                        Log.d("7777777", "12123132132");
+                        Gson gson = new Gson();
+                        Share userJson = gson.fromJson(b, Share.class);//开始解析
+                        int total = Integer.parseInt(userJson.getData().getTotal());
+                        if (total == 0) {
+                            Toast.makeText(getContext(), "Non-DATA", Toast.LENGTH_LONG).show();
+                        } else {
+                            Log.d("KONG", userJson.getData().getTotal());//
+                            List<Share.data.record> list2 =userJson.getData().getRecord();
+
+                            try {
+                                HomeFragment.list.addAll(list2);
+                                Log.d("HomeFragment.list_loadmore", HomeFragment.list.toString());
+                            }catch (Exception E){
+                                E.printStackTrace();
+                            }
+
+
+
+
+                            mAdapter = new WaterfallAdapter(getActivity(), list);//调用构造器
+//                            mAdapter.test();
+//                            if (mAdapter == null){
+//                                Log.d("22222222","33333333");
+//                            }else {
+//
+//                            }
+                            mRecyclerView.setAdapter(mAdapter);//加载waterfalladapter
+
+//                            QQQ = userJson.getCode();
+//                            Log.d("7777777",QQQ);
+                        }
+                    }
+                });
+
+//                    CreateMyPhotoActivity.k+=records.size();
+////                    /****************************显示图片列表***********************************/
+
+
+//                    return records111;
+
+            }
+        });
+    }
+
+    void pictuer() {
+        Log.d("useridcode", "21231");
+//        RequestBody requestBody = new FormBody.Builder()
+//
+//                .add("current", "0")
+//                .add("size", "10")
+//                .build();
+
+        String url1 = "http://47.107.52.7:88/member/photo/share?current=0&size="+perPage+"&userId=" + MainActivity.Zuseridcode;
+        //         url = url+"?current="+"0"+"&size="+"10"+"&userId="+"1532321653437108224";
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final Request request = new Request.Builder()
+                .url(url1)
+                .addHeader("appId", MainActivity.appId)
+                .addHeader("appSecret", MainActivity.appSecret)
+
+                .get()
+                .build();
+        Call call = okHttpClient.newCall(request);
+        List<Share.data.record> records111 = null;          //根据解析的内容写
+        call.enqueue(new Callback() {           //异步请求
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.d("11111111", "onfailure");
+//                List<Share.data.record> records111 = null;
+//                return records111;
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull final Response response) throws IOException {
 
 
                 int a = response.code();
@@ -166,17 +253,19 @@ public class HomeFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {        //重新写一个进程
                     @Override
                     public void run() {
-                        Log.d("7777777","12123132132");
+                        Log.d("7777777", "12123132132");
                         Gson gson = new Gson();
                         Share userJson = gson.fromJson(b, Share.class);//开始解析
-                        if (Integer.valueOf(userJson.getData().getTotal())==0){
+                        if (Integer.parseInt(userJson.getData().getTotal()) == 0) {
 
-                        }else {
-                            Log.d("KONG",userJson.getData().getTotal());//
-                            list = userJson.getData().getRecord();
+                        } else {
+                            Log.d("KONG", userJson.getData().getTotal());//
+                            HomeFragment.list = userJson.getData().getRecord();
+                            Log.d("HomeFragment.list_picture", HomeFragment.list.toString());
 
                             mAdapter = new WaterfallAdapter(getActivity(), list);//调用构造器
-                            mAdapter.test();
+                            
+//                            mAdapter.test();
 //                            if (mAdapter == null){
 //                                Log.d("22222222","33333333");
 //                            }else {
@@ -199,10 +288,9 @@ public class HomeFragment extends Fragment {
         });
 
 
-
-
     }
-    private void initView(){
+
+    private void initView() {
         /*************************控件初始化*****************************/
 
         imgdetail = view.findViewById(R.id.cd_home_item);
@@ -211,21 +299,22 @@ public class HomeFragment extends Fragment {
 //        list = new ArrayList<>();
         /**************************设置回收视图、瀑布流布局***************************/
 
-        RefreshLayout refreshLayout = (RefreshLayout)view.findViewById(R.id.refreshLayout);
+        RefreshLayout refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
         refreshLayout.setRefreshHeader(new ClassicsHeader(view.getContext()));
         refreshLayout.setRefreshFooter(new ClassicsFooter(view.getContext()));
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshlayout) {
                 refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
-
+                pictuer();
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshlayout) {
                 refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
-
+                current += 1;
+                loadMore();
             }
         });
         mRecyclerView = view.findViewById(R.id.Rv_home);

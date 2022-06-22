@@ -59,6 +59,7 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public WaterfallAdapter(Context mContext, List<Share.data.record> mdata) {
         this.mContext = mContext;
         this.mdata = mdata;///所有图片信息
+
     }
 
     @NonNull
@@ -74,11 +75,11 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
-    public void test() {
-
-        String a = mdata.get(0).getId();
-        Log.d("qqqqqqqqq", a);
-    }
+//    public void test() {
+//
+//        String a = mdata.get(0).getId();
+//        Log.d("test", a);
+//    }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
@@ -112,17 +113,17 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 conn.setDoInput(true);
                 conn.connect();
                 Bitmap pngBM = BitmapFactory.decodeStream(picUrl.openStream());//网络加载图片
-                Log.d("123123123123", picUrl.toString());
+                Log.d("网络加载图片", picUrl.toString());
                 holder2.mImage.setImageBitmap(pngBM);
                 //            放置图片
 //                holder2.sharerh.setImageBitmap(pngBM);
                 //            分享者头像
             } catch (Exception R) {
-                Log.d("123123123123", R.toString());
+                Log.d("网络加载图片", R.toString());
             }
             holder2.sharerh.setImageResource(R.drawable.test02);//头像写死
 //            Bitmap pngBM = BitmapFactory.decodeStream();
-            Log.d("555555", Uri.parse(mydynamic.getImgurl()[0]).toString());
+            Log.d("getImgurl", Uri.parse(mydynamic.getImgurl()[0]).toString());
 //            holder2.testtext.setText("2121231");
             holder2.mImage.getLayoutParams().height = 800;
 //          设置每个图片的高度
@@ -132,7 +133,7 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             if (mydynamic.getLikenum() == null) {
                 num = 0;
             } else {
-                num = Integer.valueOf(mydynamic.getLikenum());
+                num = Integer.parseInt(mydynamic.getLikenum());
             }
             holder2.mcount.setText(Integer.toString(num));  //获取点赞的数目
 

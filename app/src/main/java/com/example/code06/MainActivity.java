@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Intent intent = new Intent(MainActivity.this, ButtonNagivation.class);
                         ButtonNagivation.useridcode = array.getID();
                         MainActivity.Zuseridcode = array.getID();
-                        Log.d("useidcode", MainActivity.Zuseridcode);
+                        Log.d("use_id", MainActivity.Zuseridcode);
                         intent.putExtra("useridcode", array.getID());
                         startActivity(intent);
                     }
