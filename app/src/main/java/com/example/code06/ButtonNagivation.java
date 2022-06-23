@@ -1,6 +1,7 @@
 package com.example.code06;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -258,6 +259,7 @@ public class ButtonNagivation extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("Range")
     private String getImagePath(Uri uri, String seletion) {
         String path = null;
         Cursor cursor = getContentResolver().query(uri, null, seletion, null, null);

@@ -25,6 +25,7 @@ import com.example.code06.R;
 import com.example.code06.SQL.Login;
 import com.example.code06.SQL.Picture;
 import com.example.code06.SQL.Share;
+import com.example.code06.ui.home.HomeFragment;
 import com.google.gson.Gson;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
@@ -92,7 +93,7 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         holder2.setIsRecyclable(false);
         final Share.data.record mydynamic = mdata.get(position);
         //获取单个图片
-
+        sharerId = mdata.get(position).getId();
 //        final boolean[] flag = {false};
 
 
@@ -337,12 +338,45 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     //      删除item
     public void removeData(int position) {
-        mdata.remove(position);
+        HomeFragment.list.remove(position);
         notifyItemRemoved(position);
         notifyDataSetChanged();
-
+        delete();
     }
+    public void delete(){
+        RequestBody requestBody = new FormBody.Builder()
+                .add("shareId",sharerId)
+                .add("userId",MainActivity.Zuseridcode)
+                .build();
+        String url ="http://47.107.52.7:88/member/photo/share/delete";
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final Request request = new Request.Builder()
+                .url(url)
+                .addHeader("appId", MainActivity.appId)
+                .addHeader("appSecret", MainActivity.appSecret)
+                .post(requestBody)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.d("11111111", "onfailure");
+//                List<Share.data.record> records111 = null;
+//                return records111;
+            }
 
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull final Response response) throws IOException {
+
+
+                String b = Objects.requireNonNull(response.body()).string();
+                Log.d("ppppppp", b);
+
+
+            }
+
+        });
+    }
     public static class MyViewHolder extends RecyclerView.ViewHolder {//初始化控件
         public ImageView mImage;
         public TextView mTitle;

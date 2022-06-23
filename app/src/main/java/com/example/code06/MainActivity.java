@@ -53,8 +53,10 @@ import pl.com.salsoft.sqlitestudioremote.SQLiteStudioService;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 //    public final static String appId = "26679907f2e146a3a15caf84c77932a1";
 //    public final static String appSecret = "85719a27a2945592940248c9bdb562ba3d124";
-    public final static String appId = "ad9ad59c8f8842fb91feae1b84a86ead";
-    public final static String appSecret = "19286d59a813a8c544f5b8c4db327d4813be5";
+//    public final static String appId = "ad9ad59c8f8842fb91feae1b84a86ead";
+//    public final static String appSecret = "19286d59a813a8c544f5b8c4db327d4813be5";
+    public final static String appId = "cda1d5a5a07a46228d417c2052e45baa";
+    public final static String appSecret = "90495003eaf9160be4a5d80533f50f3874661";
     boolean flag = true;
     public ImageView PasswordVisibleImage;
     public TextView test;
