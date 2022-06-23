@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 
+import com.bumptech.glide.Glide;
 import com.example.code06.ButtonNagivation;
 import com.example.code06.CreateMyPhotoActivity;
 import com.example.code06.MainActivity;
@@ -36,6 +37,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
@@ -156,15 +158,15 @@ public class HomeFragment extends Fragment {
         List<Share.data.record> records111 = null;          //根据解析的内容写
         call.enqueue(new Callback() {           //异步请求
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.d("loadMore", "onfailure");
 //                List<Share.data.record> records111 = null;
 //                return records111;
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                b = response.body().string();
+            public void onResponse(@NonNull Call call, @NonNull final Response response) throws IOException {
+                b = Objects.requireNonNull(response.body()).string();
 //                    Log.d("11111111",b);
                 getActivity().runOnUiThread(new Runnable() {        //重新写一个进程
                     @Override
@@ -224,6 +226,9 @@ public class HomeFragment extends Fragment {
 
         String url1 = "http://47.107.52.7:88/member/photo/share?current=0&size="+perPage+"&userId=" + MainActivity.Zuseridcode;
         //         url = url+"?current="+"0"+"&size="+"10"+"&userId="+"1532321653437108224";
+//        mAdapter = new WaterfallAdapter(getActivity(), list);//调用构造器
+//        mRecyclerView.setAdapter(mAdapter);
+
         OkHttpClient okHttpClient = new OkHttpClient();
         final Request request = new Request.Builder()
                 .url(url1)
@@ -233,7 +238,7 @@ public class HomeFragment extends Fragment {
                 .get()
                 .build();
         Call call = okHttpClient.newCall(request);
-        List<Share.data.record> records111 = null;          //根据解析的内容写
+//        List<Share.data.record> records111 = null;          //根据解析的内容写
         call.enqueue(new Callback() {           //异步请求
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -246,9 +251,9 @@ public class HomeFragment extends Fragment {
             public void onResponse(@NonNull Call call, @NonNull final Response response) throws IOException {
 
 
-                int a = response.code();
+//                int a = response.code();
 
-                b = response.body().string();
+                b = Objects.requireNonNull(response.body()).string();
 //                    Log.d("11111111",b);
                 getActivity().runOnUiThread(new Runnable() {        //重新写一个进程
                     @Override
@@ -257,7 +262,7 @@ public class HomeFragment extends Fragment {
                         Gson gson = new Gson();
                         Share userJson = gson.fromJson(b, Share.class);//开始解析
                         if (Integer.parseInt(userJson.getData().getTotal()) == 0) {
-
+                            Log.d("pictuer", "run: total==0");
                         } else {
                             Log.d("KONG", userJson.getData().getTotal());//
                             HomeFragment.list = userJson.getData().getRecord();
@@ -298,7 +303,7 @@ public class HomeFragment extends Fragment {
         /*************************************************************/
 //        list = new ArrayList<>();
         /**************************设置回收视图、瀑布流布局***************************/
-
+//刷新控件up pull
         RefreshLayout refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
         refreshLayout.setRefreshHeader(new ClassicsHeader(view.getContext()));
         refreshLayout.setRefreshFooter(new ClassicsFooter(view.getContext()));
@@ -317,6 +322,7 @@ public class HomeFragment extends Fragment {
                 loadMore();
             }
         });
+
         mRecyclerView = view.findViewById(R.id.Rv_home);
         mRecyclerView.setHasFixedSize(true);
         mlayoutmanager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);

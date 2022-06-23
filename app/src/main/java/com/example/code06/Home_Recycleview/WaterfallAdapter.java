@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.code06.Home_ItemActivity;
 import com.example.code06.MainActivity;
 import com.example.code06.R;
@@ -61,7 +62,6 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.mdata = mdata;///所有图片信息
 
     }
-
     @NonNull
     @NotNull
     @Override
@@ -82,17 +82,17 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 //    }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         //绑定数据
         final MyViewHolder holder2 = (MyViewHolder) holder;
         holder2.setIsRecyclable(false);
         final Share.data.record mydynamic = mdata.get(position);
         //获取单个图片
 
-        final boolean[] flag = {false};
+//        final boolean[] flag = {false};
 
 
-        final int[] count = {0};
+//        final int[] count = {0};
         if (Uri.parse(mydynamic.getImgurl()[0]) != null && mydynamic.getImgurl()[0] != null) {
 //        if (true){
 
@@ -108,13 +108,17 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
 
             try {
+                Glide.with(mContext)
+                        .load(picUrl)
+                        .into(holder2.mImage);
 
-                HttpURLConnection conn = (HttpURLConnection) picUrl.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-                Bitmap pngBM = BitmapFactory.decodeStream(picUrl.openStream());//网络加载图片
+//                HttpURLConnection conn = (HttpURLConnection) picUrl.openConnection();
+//                conn.setDoInput(true);
+//                conn.connect();
+//                Bitmap pngBM = BitmapFactory.decodeStream(picUrl.openStream());//网络加载图片
+//                holder2.mImage.setImageBitmap(pngBM);
+
                 Log.d("网络加载图片", picUrl.toString());
-                holder2.mImage.setImageBitmap(pngBM);
                 //            放置图片
 //                holder2.sharerh.setImageBitmap(pngBM);
                 //            分享者头像
@@ -205,23 +209,7 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 ////                        }
 ////                    });
 ////
-////                    BmobQuery<LikeInformation> bl = new BmobQuery<>();
-////                    bl.addWhereEqualTo("userId",Integer.valueOf(MainActivity.UserId));
-////                    bl.findObjects(new FindListener<LikeInformation>() {
-////                        @Override
-////                        public void done(List<LikeInformation> list, BmobException e) {
-////                            for(int i=0;i< list.size();i++){
-////                                if(list.get(i).getItemId()==mydynamic.getItemId()){
-////                                    list.get(i).delete(new UpdateListener() {
-////                                        @Override
-////                                        public void done(BmobException e) {
 ////
-////                                        }
-////                                    });
-////                                }
-////                            }
-////                        }
-////                    });
 ////
 ////                }
 ////                else {

@@ -33,19 +33,23 @@
         </provider>
         <activity android:name=".RegisterActivity.RegisterActivity"></activity>
         <activity
+            android:exported="true"
             android:name=".Home_ItemActivity"
             android:label="item_detail"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="true"
             android:name=".CreateMyPhotoActivity"
             android:label="完善分享信息"
             android:screenOrientation="portrait" />
 <!--        图片分享新生成一个界面-->
         <activity
+            android:exported="true"
             android:name=".ButtonNagivation"
             android:label="@string/title_activity_button_nagivation"
             android:screenOrientation="portrait" />
         <activity
+            android:exported="true"
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeTranslucent">

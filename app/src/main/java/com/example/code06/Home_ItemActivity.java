@@ -23,6 +23,7 @@ import com.example.code06.Person_RecycleView.MyCollection;
 import com.example.code06.SQL.IsLike;
 import com.example.code06.SQL.Iscollect;
 import com.example.code06.SQL.Share;
+import com.example.code06.ui.home.HomeFragment;
 import com.google.gson.Gson;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
@@ -38,6 +39,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
@@ -197,9 +199,12 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
             case R.id.ig_home_item_collect:
 
 
-                if (flag) {//取消收藏
+                if (Home_ItemActivity.flag) {//取消收藏
                     ig_collect.setImageResource(R.drawable.shouchang);
+                    Home_ItemActivity.flag = !Home_ItemActivity.flag;
+                    Log.d("shoucang", "false");
                     collect_delete();
+
 //                    BmobQuery<MyCollection> mmm = new BmobQuery<>();
 //                    mmm.findObjects(new FindListener<MyCollection>() {
 //                        @Override
@@ -224,7 +229,10 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
 
                 } else {//收藏
                     ig_collect.setImageResource(R.drawable.dynamic_is_selected);
+                    Log.d("shoucang", "ture");
+                    Home_ItemActivity.flag = !Home_ItemActivity.flag;
                     collect_chose();
+
 //                    myCollection = new MyCollection();
 //                    myCollection.setUserId(Integer.valueOf(MainActivity.UserId));
 //                    myCollection.setSharerId(sharerId);
@@ -250,9 +258,12 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
             case R.id.iv_like:
                 if (like_flag) {
                     iv_like.setImageResource(R.drawable.love1);
+                    Home_ItemActivity.like_flag = !Home_ItemActivity.like_flag;
                     like_delete();
                 } else {
                     iv_like.setImageResource(R.drawable.iv_like);
+                    Home_ItemActivity.like_flag = !Home_ItemActivity.like_flag;
+
                     like_chose();
                 }
                 break;
@@ -287,15 +298,13 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull final Response response) throws IOException {
 
 
-                if (true) {
-                    String b = response.body().string();
-                    Log.d("pppppppb", b);
+                String b = Objects.requireNonNull(response.body()).string();
+                Log.d("pppppppb", b);
 
 
-                }
             }
 
         });
@@ -518,12 +527,10 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
             public void onResponse(Call call, final Response response) throws IOException {
 
 
-                if (true) {
-                    String b = response.body().string();
-                    Log.d("pppppppb", b);
+                String b = Objects.requireNonNull(response.body()).string();
+                Log.d("pppppppb", b);
 
 
-                }
             }
 
         });
@@ -550,22 +557,20 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
         List<Share.data.record> records111 = null;
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.d("11111111", "onfailure");
 //                List<Share.data.record> records111 = null;
 //                return records111;
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull final Response response) throws IOException {
 
 
-                if (true) {
-                    String b = response.body().string();
-                    Log.d("ppppppp", b);
+                String b = Objects.requireNonNull(response.body()).string();
+                Log.d("ppppppp", b);
 
 
-                }
             }
 
         });

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 31
-    buildToolsVersion "30.0.3"
+    buildToolsVersion '30.0.3'
     defaultConfig {
 //        javaCompileOptions {
 //            annotationProcessorOptions {
@@ -33,23 +33,26 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    implementation 'androidx.navigation:navigation-fragment:2.3.0'
-    implementation 'androidx.navigation:navigation-ui:2.3.0'
-    implementation files('libs\\SQLiteStudioRemote.jar')
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-fragment:2.4.2'
+    implementation 'androidx.navigation:navigation-ui:2.4.2'
+    implementation files('libs/SQLiteStudioRemote.jar')
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.facebook.fresco:fresco:0.14.1'
 
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
-    implementation 'com.github.bumptech.glide:3.7.0'
+    implementation 'com.github.bumptech.glide:glide:4.13.0'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.8.0' // 新增
+    implementation 'com.github.bumptech.glide:annotations:4.13.0' // 新增
+//    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'//冲突引用
 
     implementation 'androidx.appcompat:appcompat:1.4.2'                 //必须 1.0.0 以上
 
@@ -66,10 +69,10 @@ dependencies {
     implementation 'io.github.bmob:android-sdk:3.8.8'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'com.squareup.okhttp3:okhttp:4.8.1'
-    implementation 'com.squareup.okio:okio:2.2.2'
-    implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'com.squareup.okio:okio:2.8.0'
+    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.13.0'
 //    implementation 'com.rxjava.rxhttp:rxhttp:1.3.2'
 ////注解处理器，生成RxHttp类，即可一条链发送请求
 //    annotationProcessor 'com.rxjava.rxhttp:rxhttp-compiler:1.3.2'
