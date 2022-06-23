@@ -129,7 +129,7 @@ public class ButtonNagivation extends AppCompatActivity {
                 if (requestCode == 0x1 && resultCode == RESULT_OK) {
                     if (data != null) {
                         HomeFragment.imguri = data.getData();//返回图片路径
-                        mFilePath = FileUtil.getPath(this, HomeFragment.imguri);
+                        mFilePath = FileUtil.getPath(this, HomeFragment.imguri);//绝对路径
 //                        mFilePath = Uri.decode(data.getDataString());
 //                        mFilePath = mFilePath.substring(7, mFilePath.length());
                         try {
@@ -163,12 +163,7 @@ public class ButtonNagivation extends AppCompatActivity {
         builder.addFormDataPart("fileList", hhh.getName(), fileBody);
 //        RequestBody fileBody = RequestBody.create(new File(String.valueOf(HomeFragment.imguri)), MediaType.parse("imgae/jpg"));
         RequestBody body = builder.build();
-//        RequestBody requestBody = new FormBody.Builder()	//(post使用)
-//
-////                .add("fileList","D:/admfafin/asdfasdf")			//
-//                .add("fileList", String.valueOf(fileBody))
-//                //
-//                .build();					//
+				//
 
         String url = "http://47.107.52.7:88/member/photo/image/upload";    //
         OkHttpClient okHttpClient = new OkHttpClient();            //
@@ -258,16 +253,16 @@ public class ButtonNagivation extends AppCompatActivity {
         });
     }
 
-    private String getImagePath(Uri uri, String seletion) {
-        String path = null;
-        Cursor cursor = getContentResolver().query(uri, null, seletion, null, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
-            }
-            cursor.close();
-        }
-        return path;
-    }
+//    private String getImagePath(Uri uri, String seletion) {
+//        String path = null;
+//        Cursor cursor = getContentResolver().query(uri, null, seletion, null, null);
+//        if (cursor != null) {
+//            if (cursor.moveToFirst()) {
+//                path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+//            }
+//            cursor.close();
+//        }
+//        return path;
+//    }
 
 }

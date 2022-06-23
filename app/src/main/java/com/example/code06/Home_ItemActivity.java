@@ -100,7 +100,7 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
         initview();
         getitemmessage();
 
-        showcollect();//显示是否收藏
+        showcollect(sharerId);//显示是否收藏
         getcomment();  //获取评论
         getLike();
         this.getSupportActionBar().hide();//隐藏标题栏
@@ -276,7 +276,6 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
         String url1 = "http://47.107.52.7:88/member/photo/like";
         //         url = url+"?current="+"0"+"&size="+"10"+"&userId="+"1532321653437108224";
         RequestBody requestBody = new FormBody.Builder()
-
                 .add("shareId", sharerId)
                 .add("userId", MainActivity.Zuseridcode)
                 .build();
@@ -447,10 +446,10 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
-    private void showcollect() {
+    public void showcollect(String shareid) {
         //获取是否收藏
 
-        String url = "http://47.107.52.7:88/member/photo/share/detail?shareId=" + sharerId + "&userId=" + MainActivity.Zuseridcode;
+        String url = "http://47.107.52.7:88/member/photo/share/detail?shareId=" + shareid + "&userId=" + MainActivity.Zuseridcode;
         OkHttpClient okHttpClient = new OkHttpClient();
         Log.d("BIAOQIAN", sharerId + "?" + MainActivity.Zusername);
         final Request request = new Request.Builder()
@@ -640,7 +639,7 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
         } catch (Exception R) {
             Log.d("123123123123", R.toString());
         }
-
+        //glide
         tv_item_title.setText(itemtitle);
         tv_item_detail.setText(itemdetail);
         /***********************初始化控件**************************/
