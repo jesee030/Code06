@@ -19,6 +19,26 @@ public class Iscollect {
         private String hascollect;
         @SerializedName("collectId")
         private String collect;
+        @SerializedName("likeId")
+        private String likeId;
+        @SerializedName("likeNum")
+        private String likenum;
+
+        public void setLikenum(String likenum) {
+            this.likenum = likenum;
+        }
+
+        public String getLikenum() {
+            return likenum;
+        }
+
+        public String getLikeId() {
+            return likeId;
+        }
+
+        public void setLikeId(String likeId) {
+            this.likeId = likeId;
+        }
 
         public void setCollect(String collect) {
             this.collect = collect;

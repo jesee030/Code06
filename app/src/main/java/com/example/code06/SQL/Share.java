@@ -27,13 +27,14 @@ public class Share implements Serializable {
         this.data = data;
     }
 
-    public class data{
+    public class data {
+
         @SerializedName("total")
         private String total;
         @SerializedName("records")
         private List<record> record;
 
-        public class record{
+        public class record {
             @SerializedName("id")
             private String id;
 
@@ -45,6 +46,27 @@ public class Share implements Serializable {
                 this.id = id;
             }
 
+            @SerializedName("shareId")
+            private String shareId;
+
+            public String getShareId() {
+                return shareId;
+            }
+
+            public void setShareId(String shareId) {
+                this.shareId = shareId;
+            }
+
+            public String getLikeId() {
+                return likeId;
+            }
+
+            public void setLikeId(String likeId) {
+                this.likeId = likeId;
+            }
+
+            @SerializedName("likeId")
+            private String likeId;
             @SerializedName("imageUrlList")
             private String[] imgurl;
             @SerializedName("username")
