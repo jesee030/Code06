@@ -58,6 +58,7 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public Context mContext;
     public List<Share.data.record> mdata;
     public String sharerId;
+    public static int minus = 0;
 
     public WaterfallAdapter(Context mContext, List<Share.data.record> mdata) {
         this.mContext = mContext;
@@ -144,6 +145,7 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 num = Integer.parseInt(mydynamic.getLikenum());
             }
             holder2.mcount.setText(Integer.toString(num));  //获取点赞的数目
+//            WaterfallAdapter.like_flag = Boolean.getBoolean(mydynamic.getHaslike());
             if (mydynamic.getHaslike().equals("true")) {
                 WaterfallAdapter.like_flag = true;
                 holder2.Heart.setImageResource(R.drawable.love1);
@@ -204,17 +206,19 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             @Override
             public void onClick(View v) {
 
-                if (!WaterfallAdapter.like_flag) {
+                if (WaterfallAdapter.like_flag) {
 
                     holder2.Heart.setImageResource(R.drawable.love2);
-                    mydynamic.setHaslike("true");
-                    int minus = 0;
-                    try {
-                        minus = Integer.getInteger(mydynamic.getLikenum()) - 1;
-                        mydynamic.setLikenum(String.valueOf(minus));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+//                    mydynamic.setHaslike("true");
+                    Log.d("like","false");
+//                    try {
+//                        WaterfallAdapter.minus = Integer.getInteger(mydynamic.getLikenum()) - 1;
+//                        mydynamic.setLikenum(String.valueOf(minus));
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+
+                    WaterfallAdapter.like_flag=!WaterfallAdapter.like_flag;
 //                    count[0]--;
 //                    mydynamic.setNumberOfLikes(count[0]);
 //                    mydynamic.update(mydynamic.getObjectId(), new UpdateListener() {
@@ -227,20 +231,20 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 //
 //                        }
 //                    });
-
+ 
 
                 } else {
-                    holder2.Heart.setImageResource(R.drawable.iv_like);
-                    mydynamic.setHaslike("false");
-
-                    try {
-                        int add = Integer.getInteger(mydynamic.getLikenum()) + 1;
-                        mydynamic.setLikenum(String.valueOf(add));
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
+                    holder2.Heart.setImageResource(R.drawable.love1);
+//                    mydynamic.setHaslike("false");
+                    Log.d("like","true");
+//                    try {
+//                        int add = Integer.getInteger(mydynamic.getLikenum()) + 1;
+//                        mydynamic.setLikenum(String.valueOf(add));
+//
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+                    WaterfallAdapter.like_flag=!WaterfallAdapter.like_flag;
 
 //                    count[0]++;
 //                    mydynamic.setNumberOfLikes(count[0]);
@@ -268,7 +272,7 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 }
 //                flag[0] =!flag[0];
-                WaterfallAdapter.like_flag = Boolean.getBoolean(mydynamic.getHaslike());
+//
             }
         });
         /************************设置点赞的点击事件***************************/

@@ -268,7 +268,7 @@ public class HomeFragment extends Fragment {
                             HomeFragment.list = userJson.getData().getRecord();
                             Log.d("HomeFragment.list_picture", HomeFragment.list.toString());
 
-                            mAdapter = new WaterfallAdapter(getActivity(), list);//调用构造器
+                            mAdapter = new WaterfallAdapter(getActivity(), HomeFragment.list);//调用构造器
                             
 //                            mAdapter.test();
 //                            if (mAdapter == null){
