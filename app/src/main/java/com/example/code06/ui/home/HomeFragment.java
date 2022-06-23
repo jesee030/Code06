@@ -61,7 +61,7 @@ public class HomeFragment extends Fragment {
     public static Uri imguri;
     private Intent intent;
     public static List<Share.data.record> list;
-    private int current = 1;
+    private static int current = 1;
     private final int perPage = 6;
     public static List<Mydynamic> list1;
     public static RecyclerView mRecyclerView;
@@ -311,6 +311,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshlayout) {
                 refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+                HomeFragment.current=1;//重置当前页
                 pictuer();
             }
         });
@@ -318,7 +319,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshlayout) {
                 refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
-                current += 1;
+                HomeFragment.current += 1;
                 loadMore();
             }
         });

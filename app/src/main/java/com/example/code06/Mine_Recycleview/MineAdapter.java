@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.code06.Home_Recycleview.WaterfallAdapter;
 import com.example.code06.R;
 
@@ -56,6 +57,7 @@ public class MineAdapter extends RecyclerView.Adapter {
         if(mine.gethUri()!=null&&mine.gethUri()!=null) {
 //        if (true){
             Log.d("000000000", "123123123");
+
             holder1.m_himage.setImageURI(mine.gethUri());////
 //            picUrl = new URL(getIntent().getExtras().getString("map_url"));
             URL picUrl = null;
@@ -65,13 +67,16 @@ public class MineAdapter extends RecyclerView.Adapter {
                 e.printStackTrace();
             }
             try {
-                HttpURLConnection conn = (HttpURLConnection) picUrl.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-                Bitmap pngBM = BitmapFactory.decodeStream(picUrl.openStream());
+                Glide.with(mContext)
+                        .load(picUrl)
+                        .into(holder1.m_image);
+//                HttpURLConnection conn = (HttpURLConnection) picUrl.openConnection();
+//                conn.setDoInput(true);
+//                conn.connect();
+//                Bitmap pngBM = BitmapFactory.decodeStream(picUrl.openStream());
+//                holder1.m_image.setImageBitmap(pngBM);
                 Log.d("123123123123", mine.gethUri().toString());
 
-                holder1.m_image.setImageBitmap(pngBM);
             } catch (Exception R) {
                 Log.d("123123123123", R.toString());
             }

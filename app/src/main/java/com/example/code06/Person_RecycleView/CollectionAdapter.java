@@ -22,6 +22,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
 import com.example.code06.Home_ItemActivity;
 import com.example.code06.MainActivity;
 import com.example.code06.R;
@@ -73,13 +74,16 @@ public class  CollectionAdapter extends RecyclerView.Adapter{
                 e.printStackTrace();
             }
             try {
-                HttpURLConnection conn = (HttpURLConnection) picUrl.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-                Bitmap pngBM = BitmapFactory.decodeStream(picUrl.openStream());
+                Glide.with(mContext)
+                        .load(picUrl)
+                        .into(holder2.mImage);
+//                HttpURLConnection conn = (HttpURLConnection) picUrl.openConnection();
+//                conn.setDoInput(true);
+//                conn.connect();
+//                Bitmap pngBM = BitmapFactory.decodeStream(picUrl.openStream());
+//                holder2.mImage.setImageBitmap(pngBM);
                 Log.d("123123123123",myCollection.gethUri().toString());
-                holder2.sharerimgae.setImageResource(R.drawable.test02);
-                holder2.mImage.setImageBitmap(pngBM);
+                holder2.sharerimgae.setImageResource(R.drawable.test01);
             } catch (Exception R) {
                 Log.d("123123123123", R.toString());
             }

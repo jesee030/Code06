@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.example.code06.Home_Recycleview.CommentAdapter;
 import com.example.code06.Home_Recycleview.Mycomment;
 import com.example.code06.Home_Recycleview.Mydynamic;
+import com.example.code06.Home_Recycleview.WaterfallAdapter;
 import com.example.code06.Person_RecycleView.MyCollection;
 import com.example.code06.SQL.IsLike;
 import com.example.code06.SQL.Iscollect;
@@ -142,7 +143,7 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
 //                        collectid = iscollect.getData().getCollect();
                         if (like_not.equals("true")) {
                             Log.d("123123123", "........");
-                            like_flag = true;
+                            WaterfallAdapter.like_flag = true;
                             iv_like.setImageResource(R.drawable.iv_like);
 //                            ig_collect.setImageResource(R.drawable.dynamic_is_selected);
 
@@ -151,7 +152,7 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
 //                            ig_collect.setImageResource(R.drawable.shouchang);
                             iv_like.setImageResource(R.drawable.love1);
 
-                            like_flag = false;
+                            WaterfallAdapter.like_flag = false;
                         }
 
                     }
@@ -256,13 +257,13 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
                 }
                 break;
             case R.id.iv_like:
-                if (like_flag) {
+                if (WaterfallAdapter.like_flag) {
                     iv_like.setImageResource(R.drawable.love1);
-                    Home_ItemActivity.like_flag = !Home_ItemActivity.like_flag;
+                    WaterfallAdapter.like_flag = !WaterfallAdapter.like_flag;
                     like_delete();
                 } else {
                     iv_like.setImageResource(R.drawable.iv_like);
-                    Home_ItemActivity.like_flag = !Home_ItemActivity.like_flag;
+                    WaterfallAdapter.like_flag = !WaterfallAdapter.like_flag;
 
                     like_chose();
                 }
@@ -291,7 +292,7 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
         List<Share.data.record> records111 = null;
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.d("11111111", "onfailure");
 //                List<Share.data.record> records111 = null;
 //                return records111;
@@ -331,17 +332,17 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
         List<Share.data.record> records111 = null;
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.d("11111111", "onfailure");
 //                List<Share.data.record> records111 = null;
 //                return records111;
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull final Response response) throws IOException {
 
 
-                String b = response.body().string();
+                String b = Objects.requireNonNull(response.body()).string();
                 Log.d("ppppppp", b);
 
 
@@ -365,17 +366,17 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
         List<Share.data.record> records111 = null;
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.d("11111111", "onfailure");
 //                List<Share.data.record> records111 = null;
 //                return records111;
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull final Response response) throws IOException {
 
 
-                String b = response.body().string();
+                String b = Objects.requireNonNull(response.body()).string();
                 Log.d("12312313", b);
                 runOnUiThread(new Runnable() {
                     @Override
@@ -476,15 +477,15 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
                         Iscollect iscollect = gson.fromJson(B, Iscollect.class);
                         iscollect1 = iscollect.getData().getHascollect();
                         collectid = iscollect.getData().getCollect();
-                        if (iscollect1 == "true") {
+                        if (iscollect1.equals("true")) {
                             Log.d("123123123", "........");
-                            flag = true;
+                            Home_ItemActivity.flag = true;
                             ig_collect.setImageResource(R.drawable.dynamic_is_selected);
 
                         } else {
                             Log.d("123123123", "0000000");
                             ig_collect.setImageResource(R.drawable.shouchang);
-                            flag = false;
+                            Home_ItemActivity.flag = false;
                         }
 
                     }

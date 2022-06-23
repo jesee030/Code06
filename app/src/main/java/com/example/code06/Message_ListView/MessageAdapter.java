@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
 import com.example.code06.Home_Recycleview.WaterfallAdapter;
 import com.example.code06.R;
 
@@ -47,7 +48,10 @@ public class MessageAdapter extends RecyclerView.Adapter{
         MyMessage myMessage = mdata.get(position);
 
         Uri uri = Uri.parse(myMessage.getImgUri());
-        holder2.mImage.setImageURI(uri);
+        Glide.with(mContext)
+                .load(uri)
+                .into(holder2.mImage);
+//        holder2.mImage.setImageURI(uri);
         //holder2.mName.setText(myMessage.name);
         holder2.mTitle.setText(myMessage.getTitle());
         holder2.mDetail.setText(myMessage.getDetail());

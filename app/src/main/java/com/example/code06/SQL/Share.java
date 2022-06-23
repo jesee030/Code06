@@ -56,6 +56,16 @@ public class Share implements Serializable {
             //点赞数
             @SerializedName("content")
             private String content;
+            @SerializedName("hasLike")
+            private String haslike;
+
+            public String getHaslike() {
+                return haslike;
+            }
+
+            public void setHaslike(String haslike) {
+                this.haslike = haslike;
+            }
 
             public String getContent() {
                 return content;

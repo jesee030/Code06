@@ -37,6 +37,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
@@ -53,15 +54,17 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+    public static boolean like_flag = true;
     public Context mContext;
     public List<Share.data.record> mdata;
+    public String sharerId;
 
     public WaterfallAdapter(Context mContext, List<Share.data.record> mdata) {
         this.mContext = mContext;
         this.mdata = mdata;///所有图片信息
 
     }
+
     @NonNull
     @NotNull
     @Override
@@ -118,6 +121,7 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 //                Bitmap pngBM = BitmapFactory.decodeStream(picUrl.openStream());//网络加载图片
 //                holder2.mImage.setImageBitmap(pngBM);
 
+                assert picUrl != null;
                 Log.d("网络加载图片", picUrl.toString());
                 //            放置图片
 //                holder2.sharerh.setImageBitmap(pngBM);
@@ -140,7 +144,13 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 num = Integer.parseInt(mydynamic.getLikenum());
             }
             holder2.mcount.setText(Integer.toString(num));  //获取点赞的数目
-
+            if (mydynamic.getHaslike().equals("true")) {
+                WaterfallAdapter.like_flag = true;
+                holder2.Heart.setImageResource(R.drawable.love1);
+            } else {
+                WaterfallAdapter.like_flag = false;
+                holder2.Heart.setImageResource(R.drawable.love2);
+            }
 
             holder2.sharername.setText(mydynamic.getUsername());
 //            分享者名字
@@ -179,68 +189,88 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 /******************设置点赞的点击事件*******************/
 
 
-        holder2.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), "点击图片", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(mContext,
-//                        Home_ItemActivity.class);
-//                mContext.startActivity(intent);
-            }
-        });
-//        holder2.Heart.setOnClickListener(new View.OnClickListener() {
-//
+//        holder2.itemView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//
-////                if(flag[0]){
-////
-////                    holder2.Heart.setImageResource(R.drawable.love2);
-////                    count[0]--;
-////                    mydynamic.setNumberOfLikes(count[0]);
-////                    mydynamic.update(mydynamic.getObjectId(), new UpdateListener() {
-////                        @Override
-////                        public void done(BmobException e) {
-////
-////
-////
-////                            holder2.mcount.setText(Integer.toString(count[0]));
-////
-////                        }
-////                    });
-////
-////
-////
-////                }
-////                else {
-////                    holder2.Heart.setImageResource(R.drawable.love1);
-////                    count[0]++;
-////                    mydynamic.setNumberOfLikes(count[0]);
-////                    mydynamic.update(mydynamic.getObjectId(), new UpdateListener() {
-////                        @Override
-////                        public void done(BmobException e) {
-////
-////
-////
-////                            holder2.mcount.setText(Integer.toString(count[0]));
-////
-////                        }
-////                    });
-////
-////                    LikeInformation likeInformation = new LikeInformation();
-////                    likeInformation.setUserId(Integer.valueOf(MainActivity.UserId));
-////                    likeInformation.setItemId(mydynamic.getItemId());
-////                    likeInformation.save(new SaveListener<String>() {
-////                        @Override
-////                        public void done(String s, BmobException e) {
-////
-////                        }
-////                    });
-////
-////                }
-//                flag[0] =!flag[0];
+//                Toast.makeText(v.getContext(), "点击图片", Toast.LENGTH_SHORT).show();
+////                Intent intent = new Intent(mContext,
+////                        Home_ItemActivity.class);
+////                mContext.startActivity(intent);
 //            }
 //        });
+        //主页点赞
+        holder2.Heart.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if (!WaterfallAdapter.like_flag) {
+
+                    holder2.Heart.setImageResource(R.drawable.love2);
+                    mydynamic.setHaslike("true");
+                    int minus = 0;
+                    try {
+                        minus = Integer.getInteger(mydynamic.getLikenum()) - 1;
+                        mydynamic.setLikenum(String.valueOf(minus));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+//                    count[0]--;
+//                    mydynamic.setNumberOfLikes(count[0]);
+//                    mydynamic.update(mydynamic.getObjectId(), new UpdateListener() {
+//                        @Override
+//                        public void done(BmobException e) {
+//
+//
+//
+//                            holder2.mcount.setText(Integer.toString(count[0]));
+//
+//                        }
+//                    });
+
+
+                } else {
+                    holder2.Heart.setImageResource(R.drawable.iv_like);
+                    mydynamic.setHaslike("false");
+
+                    try {
+                        int add = Integer.getInteger(mydynamic.getLikenum()) + 1;
+                        mydynamic.setLikenum(String.valueOf(add));
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+//                    count[0]++;
+//                    mydynamic.setNumberOfLikes(count[0]);
+//                    mydynamic.update(mydynamic.getObjectId(), new UpdateListener() {
+//                        @Override
+//                        public void done(BmobException e) {
+//
+//
+//
+//                            holder2.mcount.setText(Integer.toString(count[0]));
+//
+//                        }
+//                    });
+
+                    //bmob origin
+//                    LikeInformation likeInformation = new LikeInformation();
+//                    likeInformation.setUserId(Integer.valueOf(MainActivity.UserId));
+//                    likeInformation.setItemId(mydynamic.getItemId());
+//                    likeInformation.save(new SaveListener<String>() {
+//                        @Override
+//                        public void done(String s, BmobException e) {
+//
+//                        }
+//                    });
+
+                }
+//                flag[0] =!flag[0];
+                WaterfallAdapter.like_flag = Boolean.getBoolean(mydynamic.getHaslike());
+            }
+        });
         /************************设置点赞的点击事件***************************/
         /**************设置卡片布局的点击事件**************/
         //跳转界面并完成数据传输
@@ -333,6 +363,9 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             sharername = (TextView) itemView.findViewById(R.id.h_item_sharername);
         }
     }
+
+
+
 
     void pictuer() {
         RequestBody requestBody = new FormBody.Builder()
