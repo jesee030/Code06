@@ -38,8 +38,7 @@
             android:layout_height="35dp"
             android:layout_alignBottom="@+id/person_headportrait"
             android:layout_marginStart="165dp"
-            android:textSize="15sp"
-            />
+            android:textSize="15sp" />
         <TextView
             android:layout_width="50dp"
             android:layout_height="35dp"
@@ -101,7 +100,7 @@
             android:layout_height="30dp"
             android:layout_marginStart="130dp"
             android:layout_marginTop="200dp"
-            android:gravity="center"
+
             android:hint="获赞" />
 
 
@@ -113,30 +112,31 @@
         android:layout_height="match_parent"
         android:background="#F7F9FD"
         >
+
         <TextView
             android:id="@+id/schj"
-            android:background="@drawable/edittext_shape"
             android:layout_width="250dp"
             android:layout_height="50dp"
-            android:text="收藏"
-            android:gravity="center"
             android:layout_centerHorizontal="true"
-            android:textSize="30sp"
+            android:background="@drawable/shape1"
+            android:gravity="center"
+            android:text="收藏"
+            android:textSize="25dp"
 
             />
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/schj"
-            >
+            android:layout_below="@+id/schj">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/Rv_person"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
                 android:background="#F7F9FD"
-                android:scrollbars="none">
-            </androidx.recyclerview.widget.RecyclerView>
+                android:scrollbars="none"></androidx.recyclerview.widget.RecyclerView>
         </androidx.core.widget.NestedScrollView>
 
     </RelativeLayout>

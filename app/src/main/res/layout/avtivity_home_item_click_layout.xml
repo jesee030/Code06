@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".Home_ItemActivity">
+    tools:context=".Home_ItemActivity"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/r1"
@@ -18,33 +18,35 @@
             android:id="@+id/img_back_home"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:onClick="onClick"
             android:src="@drawable/home_back" />
     </RelativeLayout>
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/r2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/r1">
-
         <RelativeLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
+            android:orientation="vertical"
             android:background="@color/wheat"
-            android:orientation="vertical">
+            >
 
 
             <ImageView
                 android:id="@+id/ig_myshareimage"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
+                android:layout_below="@+id/r1"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                tools:ignore="NotSibling" />
 
 
             <TextView
@@ -52,11 +54,11 @@
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ig_myshareimage"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="15dp"
+                android:layout_alignLeft="@+id/ig_myshareimage"
                 android:layout_marginTop="15dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"
+                android:textStyle="bold"
 
                 />
 
@@ -65,12 +67,10 @@
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_home_item_title"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="15dp"
-
-
+                android:layout_alignLeft="@+id/tv_home_item_title"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
 
             <TextView
@@ -78,8 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_home_item_detail"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="15dp"
+                android:layout_alignLeft="@+id/tv_home_item_title"
                 android:layout_marginTop="15dp"
                 android:textSize="20sp" />
 
@@ -88,19 +87,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/home_item_commentscount"
-                android:layout_marginLeft="15dp" />
+                android:layout_alignLeft="@+id/home_item_commentscount"
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:id="@+id/end"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="200dp"
                 android:layout_below="@id/rv_home_item_commentlist"
+                android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:text="-The End-" />
-
+                android:text="-The End-"
+                android:textSize="15sp"
+                android:textStyle="bold" />
             <TextView
+                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                />
 
         </RelativeLayout>
 
@@ -110,7 +113,6 @@
 
         android:layout_width="match_parent"
         android:layout_height="75dp"
-
         android:layout_alignParentBottom="true"
         android:background="@color/wheat">
 
@@ -120,7 +122,6 @@
             android:layout_height="50dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:background="@drawable/edittext_shape"
             android:gravity="center"
             android:hint="请输入内容" />
 
@@ -128,29 +129,39 @@
             android:id="@+id/iv_like"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="300dp"
-            android:layout_marginTop="20dp"
+            android:layout_alignBottom="@+id/ig_home_item_collect"
+            android:layout_toLeftOf="@+id/ig_home_item_collect"
             android:onClick="onClick"
-            app:srcCompat="@drawable/love1" />
+            app:srcCompat="@drawable/love1"
+            android:layout_marginRight="15dp"
+
+            />
+
 
         <ImageView
 
             android:id="@+id/ig_home_item_collect"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="360dp"
-            android:layout_marginTop="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
             android:onClick="onClick"
+            android:layout_alignParentRight="true"
             android:src="@drawable/shouchang" />
 
         <Button
             android:id="@+id/Comment"
-            android:layout_width="110dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="180dp"
-            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/iv_like"
+            android:layout_toRightOf="@+id/home_item_Entercomments"
+            android:background="@drawable/shape1"
             android:onClick="onClick"
-            android:text="发表评论" />
+            android:text="发表评论"
+            android:textSize="15dp" />
     </RelativeLayout>
 
 
