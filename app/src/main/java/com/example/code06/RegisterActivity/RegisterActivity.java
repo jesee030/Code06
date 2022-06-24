@@ -106,17 +106,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     });
 
 
-                    final User user = new User();
-                    user.setUserId(k);
-                    user.setName(name);
-                    user.setPassword(password);
-                    user.sethUri("content://media/external/images/media/4394459");
-                    user.save(new SaveListener<String>() {
-                        @Override
-                        public void done(String objectId, BmobException e) {
-                            k++;
-                        }
-                    });
+//                    final User user = new User();
+//                    user.setUserId(k);
+//                    user.setName(name);
+//                    user.setPassword(password);
+//                    user.sethUri("content://media/external/images/media/4394459");
+//                    user.save(new SaveListener<String>() {
+//                        @Override
+//                        public void done(String objectId, BmobException e) {
+//                            k++;
+//                        }
+//                    });
                     Toast.makeText(RegisterActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
                     finish();
                 }

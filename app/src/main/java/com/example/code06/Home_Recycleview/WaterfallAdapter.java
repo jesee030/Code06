@@ -41,6 +41,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
@@ -57,6 +59,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public static boolean flagtest = true;
     public static boolean like_flag = true;
     public Context mContext;
     public List<Share.data.record> mdata;
@@ -64,7 +67,7 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public static int minus = 0;
     public static int num;
     public static String likeid;
-
+    public static ExecutorService executorService = Executors.newCachedThreadPool();
     public WaterfallAdapter(Context mContext, List<Share.data.record> mdata) {
         this.mContext = mContext;
         this.mdata = mdata;///所有图片信息
@@ -212,10 +215,11 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             @Override
             public void onClick(View v) {
-
+                Log.d("HOMEFRAGMENT",HomeFragment.list.toString());
                 Log.d("POSITION", mdata.get(position).getHaslike());
                 if (mdata.get(position).getHaslike()=="true") {
-                    mdata.get(position).setHaslike("false");
+//                    mdata.get(position).setHaslike("false");
+                    Log.d("POSITION1111",mdata.get(position).getHaslike());
                     holder2.Heart.setImageResource(R.drawable.love2);
 //                    mydynamic.setHaslike("true");
                     Log.d("like", "false");
@@ -226,44 +230,53 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         //TODO 点赞减一
 
 
-
-                            String url = "http://47.107.52.7:88/member/photo/share/detail?shareId=" + mydynamic.getId() + "&userId=" + MainActivity.Zuseridcode;
+                        //获取likeid
+                        String url = "http://47.107.52.7:88/member/photo/share/detail?shareId=" + mdata.get(position).getId() + "&userId=" + MainActivity.Zuseridcode;
 //                            Log.d("SHAREID",mydynamic.getShareId());
-                            OkHttpClient okHttpClient = new OkHttpClient();
+                        OkHttpClient okHttpClient = new OkHttpClient();
 //                            Log.d("BIAOQIAN", sharerId + "?" + MainActivity.Zusername);
-                            final Request request = new Request.Builder()
-                                    .url(url)
-                                    .addHeader("appId", MainActivity.appId)
-                                    .addHeader("appSecret", MainActivity.appSecret)
+                        final Request request = new Request.Builder()
+                                .url(url)
+                                .addHeader("appId", MainActivity.appId)
+                                .addHeader("appSecret", MainActivity.appSecret)
 //                .post(requestBody)
-                                    .get()
-                                    .build();
-                            Call call = okHttpClient.newCall(request);
-                            call.enqueue(new Callback() {
-                                @Override
-                                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                .get()
+                                .build();
+                        Call call = okHttpClient.newCall(request);
+                        call.enqueue(new Callback() {
+                            @Override
+                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-                                }
+                            }
 
-                                @Override
-                                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                                    String B = response.body().string();
-                                    Log.d("BJIEGUO",B);
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Gson gson = new Gson();
-                                            Iscollect iscollect = gson.fromJson(B, Iscollect.class);
-                                            WaterfallAdapter.likeid = iscollect.getData().getLikeId();
-                                            holder2.mcount.setText(iscollect.getData().getLikenum());
+                            @Override
+                            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                                String B = response.body().string();
+                                Log.d("ABJIEGUO",B);
+                                Thread thread = new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Gson gson = new Gson();
+                                        Iscollect iscollect = gson.fromJson(B, Iscollect.class);
+                                        mdata.get(position).setLikeId(iscollect.getData().getLikeId());
+                                        mdata.get(position).setHaslike("false");
+                                        WaterfallAdapter.likeid = iscollect.getData().getLikeId();
+//                                            holder2.mcount.setText(iscollect.getData().getLikenum());
 //                                            likeid = "123";
-//                                            Log.d("LIKEID1111",WaterfallAdapter.likeid);
-
-                                        }
-                                    }).start();
+                                        Log.d("LIKEIDZZZZ",iscollect.getData().getLikeId()+"++++++");
+                                        WaterfallAdapter.flagtest = !WaterfallAdapter.flagtest;
+                                    }
+                                });
+                                thread.start();
+                                try {
+                                    executorService.execute(thread);
+                                    thread.join();
+                                }catch (Exception E){
 
                                 }
-                            });
+
+                            }
+                        });
 
 
 
@@ -274,12 +287,16 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                     try{
+                        //取消点赞
+                        while (mdata.get(position).getHaslike()=="true"){
+
+                        }
                         String url = "http://47.107.52.7:88/member/photo/like/cancel";
                         OkHttpClient okHttpClient = new OkHttpClient();
-                        Log.d("LIKEID2222",WaterfallAdapter.likeid+"+++++" );
+                        Log.d("LIKEID2222",mdata.get(position).getLikeId()+"+++++" );
                         RequestBody requestBody = new FormBody.Builder()    //(post使用)
 
-                                .add("likeId", WaterfallAdapter.likeid)            //
+                                .add("likeId", mdata.get(position).getLikeId())            //
                                 //
                                 .build();
                         final Request request = new Request.Builder()
@@ -302,7 +319,7 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 //                                    runOnUiThread(new Runnable() {
 //                                        @Override
 //                                        public void run() {
-                               Log.d("JIEGUO",B.toString());
+                                Log.d("JIEGUO",B.toString());
 
 
 
@@ -311,47 +328,61 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                             }
                         });
+                        WaterfallAdapter.flagtest = !WaterfallAdapter.flagtest;
                     }catch (Exception e){Log.d("BAOCUO",e.toString());}
 
-                    String url1 = "http://47.107.52.7:88/member/photo/share/detail?shareId=" + mydynamic.getId() + "&userId=" + MainActivity.Zuseridcode;
-//                            Log.d("SHAREID",mydynamic.getShareId());
-                    OkHttpClient okHttpClient1 = new OkHttpClient();
-//                            Log.d("BIAOQIAN", sharerId + "?" + MainActivity.Zusername);
-                    final Request request1 = new Request.Builder()
-                            .url(url1)
-                            .addHeader("appId", MainActivity.appId)
-                            .addHeader("appSecret", MainActivity.appSecret)
-//                .post(requestBody)
-                            .get()
-                            .build();
-                    Call call1 = okHttpClient1.newCall(request1);
-                    call1.enqueue(new Callback() {
-                        @Override
-                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-                        }
 
-                        @Override
-                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                            String B = response.body().string();
-                            Log.d("BJIEGUO",B);
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Gson gson = new Gson();
-                                    Iscollect iscollect = gson.fromJson(B, Iscollect.class);
-                                    WaterfallAdapter.likeid = iscollect.getData().getLikeId();
-                                    holder2.mcount.setText(iscollect.getData().getLikenum());
-//                                            likeid = "123";
-//                                    Log.d("LIKEID1111",iscollect.getData().getLikenum());
+                    //显示
+                    int testnum = 0;
+                    if (mdata.get(position).getLikenum()=="null"){
 
-                                }
-                            }).start();
+                    }else {
+                        testnum = Integer.valueOf(mdata.get(position).getLikenum());
+                    }
 
-                        }
-                    });
+                    testnum--;
+                    mdata.get(position).setLikenum(Integer.toString(testnum));
+                    holder2.mcount.setText(mdata.get(position).getLikenum());
+//                    String url1 = "http://47.107.52.7:88/member/photo/share/detail?shareId=" + mdata.get(position).getId() + "&userId=" + MainActivity.Zuseridcode;
+////                            Log.d("SHAREID",mydynamic.getShareId());
+//                    OkHttpClient okHttpClient1 = new OkHttpClient();
+////                            Log.d("BIAOQIAN", sharerId + "?" + MainActivity.Zusername);
+//                    final Request request1 = new Request.Builder()
+//                            .url(url1)
+//                            .addHeader("appId", MainActivity.appId)
+//                            .addHeader("appSecret", MainActivity.appSecret)
+////                .post(requestBody)
+//                            .get()
+//                            .build();
+//                    Call call1 = okHttpClient1.newCall(request1);
+//                    call1.enqueue(new Callback() {
+//                        @Override
+//                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+//                            String B = response.body().string();
+//                            Log.d("BJIEGUO",B);
+//                            new Thread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    Gson gson = new Gson();
+//                                    Iscollect iscollect = gson.fromJson(B, Iscollect.class);
+////                                    WaterfallAdapter.likeid = iscollect.getData().getLikeId();
+//                                    holder2.mcount.setText(iscollect.getData().getLikenum());
+////                                            likeid = "123";
+////                                    Log.d("LIKEID1111",iscollect.getData().getLikenum());
+//
+//                                }
+//                            }).start();
+//
+//                        }
+//                    });
 
-                    WaterfallAdapter.like_flag = !WaterfallAdapter.like_flag;
+//                    WaterfallAdapter.like_flag = !WaterfallAdapter.like_flag;
 //                    count[0]--;
 //                    mydynamic.setNumberOfLikes(count[0]);
 //                    mydynamic.update(mydynamic.getObjectId(), new UpdateListener() {
@@ -367,15 +398,16 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
                 } else {
-                    mdata.get(position).setHaslike("true");
+//                    mdata.get(position).setHaslike("true");
                     holder2.Heart.setImageResource(R.drawable.love1);
+                    Log.d("POSITION1111",mdata.get(position).getHaslike());
                     try {
 
 
 
-
+                        //点赞
                         String url1 = "http://47.107.52.7:88/member/photo/like";
-                        String shareId = mydynamic.getId();
+                        String shareId = mdata.get(position).getId();
                         Log.d("like_waterfall", "onClick: "+shareId);
                         RequestBody requestBody = new FormBody.Builder()
                                 .add("shareId", shareId)
@@ -398,7 +430,7 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             @Override
                             public void onResponse(@NonNull Call call, @NonNull final Response response) throws IOException {
                                 String b = Objects.requireNonNull(response.body()).string();
-
+                                mdata.get(position).setHaslike("true");
                                 Log.d("likea_chose", b);
                             }
 
@@ -409,44 +441,56 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
 
+                        //显示
+                        int testnum = 0;
+                        if (mdata.get(position).getLikenum()=="null"){
 
-                        String url = "http://47.107.52.7:88/member/photo/share/detail?shareId=" + mydynamic.getId() + "&userId=" + MainActivity.Zuseridcode;
-//                            Log.d("SHAREID",mydynamic.getShareId());
-                        OkHttpClient okHttpClient = new OkHttpClient();
-//                            Log.d("BIAOQIAN", sharerId + "?" + MainActivity.Zusername);
-                        final Request request = new Request.Builder()
-                                .url(url)
-                                .addHeader("appId", MainActivity.appId)
-                                .addHeader("appSecret", MainActivity.appSecret)
-//                .post(requestBody)
-                                .get()
-                                .build();
-                        Call call = okHttpClient.newCall(request);
-                        call.enqueue(new Callback() {
-                            @Override
-                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        }else {
+                            testnum = Integer.valueOf(mdata.get(position).getLikenum());
+                        }
 
-                            }
+                        testnum++;
+                        mdata.get(position).setLikenum(Integer.toString(testnum));
+                        holder2.mcount.setText(mdata.get(position).getLikenum());
 
-                            @Override
-                            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                                String B = response.body().string();
-                                Log.d("BJIEGUO",B);
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Gson gson = new Gson();
-                                        Iscollect iscollect = gson.fromJson(B, Iscollect.class);
-                                        WaterfallAdapter.likeid = iscollect.getData().getLikeId();
-                                        holder2.mcount.setText(iscollect.getData().getLikenum());
-//                                            likeid = "123";
-                                        Log.d("LIKEID77777",iscollect.getData().getLikenum());
-
-                                    }
-                                }).start();
-
-                            }
-                        });
+//                        String url = "http://47.107.52.7:88/member/photo/share/detail?shareId=" + mdata.get(position).getId() + "&userId=" + MainActivity.Zuseridcode;
+////                            Log.d("SHAREID",mydynamic.getShareId());
+//                        OkHttpClient okHttpClient = new OkHttpClient();
+////                            Log.d("BIAOQIAN", sharerId + "?" + MainActivity.Zusername);
+//                        final Request request = new Request.Builder()
+//                                .url(url)
+//                                .addHeader("appId", MainActivity.appId)
+//                                .addHeader("appSecret", MainActivity.appSecret)
+////                .post(requestBody)
+//                                .get()
+//                                .build();
+//                        Call call = okHttpClient.newCall(request);
+//                        call.enqueue(new Callback() {
+//                            @Override
+//                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+//                                String B = response.body().string();
+//                                Log.d("CBJIEGUO",B);
+//                                new Thread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        Gson gson = new Gson();
+//                                        Iscollect iscollect = gson.fromJson(B, Iscollect.class);
+////                                        WaterfallAdapter.likeid = iscollect.getData().getLikeId();
+//
+//                                        holder2.mcount.setText(iscollect.getData().getLikenum());
+////                                            likeid = "123";
+////                                        Log.d("LIKEID77777",iscollect.getData().getLikenum());
+//
+//                                    }
+//                                }).start();
+//
+//                            }
+//                        });
                     }catch (Exception E){
                         Log.d("cuowu",E.toString());
                     }
@@ -462,7 +506,7 @@ public class WaterfallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    WaterfallAdapter.like_flag = !WaterfallAdapter.like_flag;
+//                    WaterfallAdapter.like_flag = !WaterfallAdapter.like_flag;
 
 //                    count[0]++;
 //                    mydynamic.setNumberOfLikes(count[0]);

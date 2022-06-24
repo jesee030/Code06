@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //    public final static String appSecret = "85719a27a2945592940248c9bdb562ba3d124";
 //    public final static String appId = "ad9ad59c8f8842fb91feae1b84a86ead";
 //    public final static String appSecret = "19286d59a813a8c544f5b8c4db327d4813be5";
-public final static String appId = "4c60eb552e7448dab6410c6440d03961";
-    public final static String appSecret = "056591819e7d805ca4db88460527618468ec6";
+public final static String appId = "b7f1a58a9ae844368df2d96779e4476e";
+    public final static String appSecret = "55311a1873ac6d953418a9d9d0573d3c09dec";
     boolean flag = true;
     public ImageView PasswordVisibleImage;
     public TextView test;
