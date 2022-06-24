@@ -4,55 +4,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/test03"
+    android:background="@drawable/register"
     android:orientation="vertical"
     android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
     tools:context=".RegisterActivity.RegisterActivity">
 
     <Button
         android:id="@+id/zhuche"
-        android:layout_width="100dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:background="@drawable/shape"
         android:hint="注册"
         android:onClick="onClick"
-        android:textColorHint="@color/blueviolet"
-        app:layout_constraintBottom_toBottomOf="@+id/quxiao"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toEndOf="@+id/quxiao"
-        app:layout_constraintTop_toTopOf="@+id/quxiao" />
+        android:textColorHint="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toLeftOf="@+id/reconfirmpassword"
+        app:layout_constraintTop_toBottomOf="@+id/reconfirmpassword" />
+
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.503"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/quxiao"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/quxiao" -->
+
 
     <Button
         android:id="@+id/quxiao"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/shape"
         android:hint="取消"
         android:onClick="onClick"
-        android:textColorHint="@color/blueviolet"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintHorizontal_bias="0.514"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="0.326" />
+        android:textColorHint="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/zhuche"
+        app:layout_constraintRight_toRightOf="@+id/reconfirmpassword" />
 
-    <EditText
-        android:id="@+id/reconfirmpassword"
-        android:layout_width="300dp"
+    <!--    app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--    app:layout_constraintEnd_toStartOf="@+id/guideline4"-->
+    <!--    app:layout_constraintHorizontal_bias="0.514"-->
+    <!--    app:layout_constraintStart_toStartOf="parent"-->
+    <!--    app:layout_constraintTop_toTopOf="@+id/guideline3"-->
+    <!--    app:layout_constraintVertical_bias="0.328"-->
+
+    <TextView
+        android:id="@+id/dt"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:background="@drawable/shape"
-        android:hint="重新确认密码"
-        android:textColorHint="@color/cadetblue"
-
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:text="欢迎来到PhotoShare"
+        android:textColor="#CCAE5A"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.594"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.566" />
+        app:layout_constraintVertical_bias="0.541" />
 
     <EditText
         android:id="@+id/inputpassword"
@@ -60,43 +67,74 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape"
         android:hint="请输入密码"
-        android:textColorHint="@color/cadetblue"
+        android:textColorHint="@color/white"
+        android:paddingLeft="60dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.594"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.426" />
+        app:layout_constraintVertical_bias="0.334" />
 
     <EditText
         android:id="@+id/inputname"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:autofillHints=""
+        android:layout_marginTop="25dp"
         android:background="@drawable/shape"
         android:hint="请输入用户名"
-        android:textColorHint="@color/cadetblue"
+        android:paddingLeft="60dp"
+        android:textColorHint="@color/white"
+        app:layout_constraintLeft_toLeftOf="@+id/inputpassword"
+        app:layout_constraintTop_toBottomOf="@+id/inputpassword" />
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.594"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.496" />
-
-    <TextView
-        android:id="@+id/dt"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/reconfirmpassword"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="         注册："
-        android:textColor="@color/black"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.541" />
+        android:layout_marginTop="25dp"
+        android:autofillHints=""
+        android:background="@drawable/shape"
+        android:hint="重新确认密码"
+        android:paddingLeft="60dp"
+        android:textColorHint="@color/white"
+        app:layout_constraintLeft_toLeftOf="@+id/inputpassword"
+        app:layout_constraintTop_toBottomOf="@+id/inputname" />
+
+
+    <ImageView
+        android:id="@+id/password"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/lock"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        app:layout_constraintLeft_toLeftOf="@+id/inputpassword"
+        app:layout_constraintTop_toTopOf="@+id/inputpassword"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/user"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/user"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        app:layout_constraintLeft_toLeftOf="@+id/inputname"
+        app:layout_constraintTop_toTopOf="@+id/inputname"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/password2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/lock2"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        app:layout_constraintLeft_toLeftOf="@+id/inputpassword"
+        app:layout_constraintTop_toTopOf="@+id/reconfirmpassword"
+        tools:ignore="MissingConstraints" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"

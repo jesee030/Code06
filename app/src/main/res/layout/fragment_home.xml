@@ -32,14 +32,12 @@
             android:layout_height="wrap_content">
 
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/Rv_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#F7F9FD"
-                android:scrollbars="none"
-                >
+                android:scrollbars="none">
 
 
             </androidx.recyclerview.widget.RecyclerView>

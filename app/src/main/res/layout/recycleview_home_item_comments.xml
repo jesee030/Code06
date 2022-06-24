@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/comment_userimg"
@@ -12,18 +12,20 @@
             android:layout_height="50dp"
             android:layout_marginStart="5dp"
             android:scaleType="centerCrop" />
+
         <TextView
             android:id="@+id/comment_username"
-            android:layout_width="250dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="60dp"
-            />
+            android:layout_width="270dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/comment_userimg" />
+
         <TextView
             android:id="@+id/comment_usercomment"
-            android:layout_width="280dp"
-            android:layout_height="60dp"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/comment_username"
-            android:layout_marginLeft="60dp"
+            android:layout_alignLeft="@+id/comment_username"
             />
     </RelativeLayout>
 </LinearLayout>
