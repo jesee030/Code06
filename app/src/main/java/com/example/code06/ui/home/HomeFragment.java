@@ -269,7 +269,7 @@ public class HomeFragment extends Fragment {
                             Log.d("HomeFragment.list_picture", HomeFragment.list.toString());
 
                             mAdapter = new WaterfallAdapter(getActivity(), HomeFragment.list);//调用构造器
-                            
+                            Log.d("HOMEFRAGMENT",HomeFragment.list.toString());
 //                            mAdapter.test();
 //                            if (mAdapter == null){
 //                                Log.d("22222222","33333333");
