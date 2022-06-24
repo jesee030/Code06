@@ -239,7 +239,7 @@ public final static String appId = "cedd37ae509645c9b9514c2fff7b8ada";
                 break;
             case R.id.PasswordVisibleImage://密码是否可见
                 flag = !flag;
-                if (flag) {
+                if (!flag) {
                     PasswordVisibleImage.setImageResource(R.drawable.showpassword);
                     PasswordText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 } else {
