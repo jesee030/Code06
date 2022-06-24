@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.example.code06.Home_Recycleview.CommentAdapter;
 import com.example.code06.Home_Recycleview.Mycomment;
 import com.example.code06.Home_Recycleview.Mydynamic;
@@ -626,13 +627,15 @@ public class Home_ItemActivity extends AppCompatActivity implements View.OnClick
         }
 
         try {
-
-            HttpURLConnection conn = (HttpURLConnection) picUrl.openConnection();
-            conn.setDoInput(true);
-            conn.connect();
-            Bitmap pngBM = BitmapFactory.decodeStream(picUrl.openStream());
-            Log.d("123123123123", picUrl.toString());
-            igdetail.setImageBitmap(pngBM);
+            Glide.with(Home_ItemActivity.this)
+                    .load(picUrl)
+                    .into(igdetail);
+//            HttpURLConnection conn = (HttpURLConnection) picUrl.openConnection();
+//            conn.setDoInput(true);
+//            conn.connect();
+//            Bitmap pngBM = BitmapFactory.decodeStream(picUrl.openStream());
+//            Log.d("123123123123", picUrl.toString());
+//            igdetail.setImageBitmap(pngBM);
             //            放置图片
 //            holder2.sharerh.setImageBitmap(pngBM);
             //            分享者头像
